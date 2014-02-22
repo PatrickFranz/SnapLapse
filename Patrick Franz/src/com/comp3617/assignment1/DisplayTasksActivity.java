@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.comp3617.assignment1.data.Task;
 import com.comp3617.assignment1.data.TaskList;
@@ -21,6 +23,7 @@ import com.comp3617.assignment1.data.TaskList;
 public class DisplayTasksActivity extends Activity {
 
 	private ArrayList<Task> taskList = TaskList.getTaskList();
+	private TextView tvTopBar;
 	private ListView list;
 	private Button btnAddNew;
 	private static final int REQ_CODE = 111;
@@ -30,10 +33,18 @@ public class DisplayTasksActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_displaytasks);
-		makeTasks();
-		list = (ListView)findViewById(R.id.lv_tasklist);
+		// Get font
+		Typeface segoeUi = Typeface.createFromAsset(this.getAssets(),"SEGUISYM.TTF");
+		
+		//makeSampleTasks();
+		tvTopBar = (TextView)findViewById(R.id.tv_topBar);
+		tvTopBar.setTypeface(segoeUi);
+		
+		list = (ListView)findViewById(R.id.task_listview);
+		btnAddNew = (Button)findViewById(R.id.btn_add_new);
+		
 		listViewAdapter = 
-				new ArrayAdapter<Task>(this, android.R.layout.simple_list_item_1, taskList);
+				new ArrayAdapter<Task>(this, R.layout.task_list_layout, taskList);
 		list.setAdapter(listViewAdapter);
 
 
@@ -42,13 +53,11 @@ public class DisplayTasksActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Intent i = new Intent(getBaseContext(), EditTaskActivity.class);
-				i.putExtra("selected", 	arg2);
-				
-				
+				i.putExtra("selected", 	arg2);				
 				startActivityForResult(i, REQ_CODE);
 			}
 		});
-		btnAddNew = (Button)findViewById(R.id.btn_add_new);
+		
 		btnAddNew.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -67,6 +76,17 @@ public class DisplayTasksActivity extends Activity {
 			listViewAdapter.notifyDataSetChanged();
 		}
 	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		//Set top bar text
+		if(taskList.size() < 1){
+			tvTopBar.setText("No tasks found ... ");
+		} else {
+			tvTopBar.setText("" + taskList.size() + " tasks found.");
+		}
+	}
 
 
 
@@ -77,7 +97,8 @@ public class DisplayTasksActivity extends Activity {
 		return true;
 	}
 	
-	private void makeTasks(){
+	@SuppressWarnings("unused")
+	private void makeSampleTasks(){
 		
 		taskList.add(new Task("Get milk", "Get milk from store",
 				new GregorianCalendar(2014, 9, 22),"grocery","Medium", false

@@ -151,7 +151,7 @@ public class AddTaskActivity extends Activity {
 						
 						Intent reminder = new Intent(Intent.ACTION_EDIT)
 							.setData(Events.CONTENT_URI)
-							.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, chosenDate.getTimeInMillis())
+							.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, chosenDate.getTimeInMillis() - REMIND_ALARM)
 							.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, chosenDate.getTimeInMillis() + TASK_LENGTH)
 							.putExtra(Events.DTSTART, chosenDate.getTimeInMillis())
 							.putExtra(Events.DESCRIPTION, etDescription.getText().toString())
