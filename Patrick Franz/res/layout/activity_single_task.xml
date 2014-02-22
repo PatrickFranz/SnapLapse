@@ -1,0 +1,103 @@
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent" 
+    android:layout_width="match_parent"
+    >
+    <TableRow 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+	    <TextView
+	        android:layout_span="2"
+	        android:layout_gravity="center"
+	        android:textSize="20sp"
+	        android:text="@string/title_create_task"
+	        />
+	</TableRow>
+	<TableRow>
+	    <TextView 
+	        android:text="@string/txt_task_title"       
+	    />
+	    <EditText 
+	        android:id="@+id/edit_task_title"
+	        android:inputType="text"
+	        android:layout_weight="1"
+	/>
+	</TableRow>	
+	<TableRow>
+	    <TextView 
+	        android:text="@string/txt_task_description"       
+	        />
+	    <EditText 
+	        android:id="@+id/edit_task_description"
+	        android:inputType="text"
+	        android:layout_weight="1"
+	        />
+	</TableRow>	
+
+		<TableRow 
+		    android:paddingTop="15dp" 
+		    android:paddingBottom="15dp">
+
+	    <TextView 
+	        android:text="@string/txt_task_due_date"
+	        android:layout_gravity="center_vertical"    
+	        />
+	    <TextView
+	        android:id="@+id/edit_task_due_date"
+	        android:layout_weight="1"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        />
+	</TableRow>	
+
+	<TableRow android:paddingBottom="5dp" >
+
+	    <TextView 
+	        android:text="@string/txt_task_category"       
+	        />
+	    <Spinner 
+	        android:id="@+id/edit_task_category"
+	        android:spinnerMode="dropdown"
+	        android:layout_weight="1"
+	        />
+	</TableRow>	
+	<TableRow>
+	    <TextView 
+	        android:text="@string/txt_task_priority"       
+	        />
+	    <Spinner 
+	        android:id="@+id/edit_task_priority"
+	        android:spinnerMode="dropdown"
+	        android:layout_weight="1"
+	        />
+	</TableRow>	
+	<TableRow>
+	    <TextView 
+	        android:text="@string/txt_task_status"       
+	        />
+
+	    <ToggleButton
+	        android:id="@+id/btn_tog_status"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textOn="@string/btn_status_pending"
+	        android:textOff="@string/btn_status_complete"
+	         />
+
+	</TableRow>	
+	<TableRow>
+	    <Button
+	    	android:id="@+id/btn_submit"
+	    	android:layout_width="0dp"
+	    	android:layout_height="wrap_content"
+	    	android:layout_weight="1"
+	    />
+
+	    <CheckBox
+	        android:id="@+id/sendEmail"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/txt_send_email" />
+	    
+	</TableRow>
+</TableLayout>
