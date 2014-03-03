@@ -15,48 +15,130 @@
         android:layout_weight="1"
         android:text="Menu"
         android:textColor="#f1f1f1"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <Button
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+        />
+    <!-- Create project button -->
+    <LinearLayout 
         android:id="@+id/btn_create"
-        android:drawableLeft="@drawable/ico_add"
-        android:background="@drawable/menu_button_shape"
-        style="@style/MenuTheme_Button"
-        android:layout_weight="1"
-        android:paddingLeft="30dp"
-        android:text="@string/btn_create_project"
-        android:gravity="top"
-         />
+        style="@style/LinearLayoutButton_Style"
+        >
+        <ImageView 
+            style="@style/ImageViewButton_Style"     
+            android:contentDescription="@string/btn_create_project"
+            android:src="@drawable/ico_add"            
+            />        
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+           >
+	        <TextView
+	            style="@style/ButtonHeading_Style"
+	            android:text="@string/btn_create_project"
+	            />
+	         <TextView
+	           style="@style/ButtonDescription_Style"
+	            android:text="@string/btn_desc_create_project"
+	            />
+        </LinearLayout>
+    </LinearLayout>
+	<!-- End create project button -->
 
-    <Button
+<!-- Open project button -->
+    <LinearLayout 
         android:id="@+id/btn_open"
-        android:drawableLeft="@drawable/ico_edit"
-        android:background="@drawable/menu_button_shape"
-        style="@style/MenuTheme_Button"
-        android:layout_weight="1"
-        android:paddingLeft="30dp"
-        android:text="@string/btn_open_project"
-  
-        />
-
-    <Button
+        style="@style/LinearLayoutButton_Style"
+        >
+        <ImageView 
+            style="@style/ImageViewButton_Style"     
+            android:contentDescription="@string/btn_open_project"
+            android:src="@drawable/ico_edit"            
+            />        
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+           >
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            style="@style/ButtonHeading_Style"
+	            android:text="@string/btn_open_project"
+	            />
+	         <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"	         
+	            android:text="@string/btn_desc_open_project"
+	            />
+        </LinearLayout>
+    </LinearLayout>
+	<!-- End open project button -->
+	
+	<!-- Delete project button -->
+    <LinearLayout 
         android:id="@+id/btn_remove"
-        android:drawableLeft="@drawable/ico_delete"
-        android:background="@drawable/menu_button_shape"
-        style="@style/MenuTheme_Button"
-        android:layout_weight="1"
-        android:paddingLeft="30dp"
-        android:text="@string/btn_delete_project"
-       
-        />
-
-    <Button
+        style="@style/LinearLayoutButton_Style"
+        >
+        <ImageView
+            style="@style/ImageViewButton_Style"     
+            android:contentDescription="@string/btn_delete_project"
+            android:src="@drawable/ico_delete"
+                   
+            />        
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+           >
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            style="@style/ButtonHeading_Style"
+	            android:text="@string/btn_delete_project"
+	            />
+	         <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"	         
+	            android:text="@string/btn_desc_delete_project"
+	            />
+        </LinearLayout>
+    </LinearLayout>
+	<!-- End delete project button -->
+	
+	<!-- View project button -->
+    <LinearLayout 
         android:id="@+id/btn_view"
-        android:drawableLeft="@drawable/ico_view"
-        android:background="@drawable/menu_button_shape"
-        style="@style/MenuTheme_Button"
-        android:layout_weight="1"
-        android:paddingLeft="30dp"
-        android:text="@string/btn_view_project" />
+        style="@style/LinearLayoutButton_Style"
+        >
+        <ImageView
+            style="@style/ImageViewButton_Style"
+            android:contentDescription="@string/btn_view_project"
+            android:src="@drawable/ico_view"            
+            />        
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+           >
+	        <TextView
+	            android:layout_gravity="center_vertical"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            style="@style/ButtonHeading_Style"
+	            android:text="@string/btn_view_project"
+	            />
+	         <TextView
+	            android:layout_gravity="center_vertical"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"	         
+	            android:text="@string/btn_desc_view_project"
+	            />
+        </LinearLayout>
+    </LinearLayout>
+	<!-- End view project button -->
+
+
+  
+
 
 </LinearLayout>

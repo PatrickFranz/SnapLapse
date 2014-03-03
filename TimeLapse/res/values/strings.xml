@@ -8,5 +8,11 @@
     <string name="btn_open_project">Open</string>
     <string name="btn_delete_project">Remove</string>
     <string name="btn_view_project">View</string>
+    <string name="btn_desc_create_project">Start a new project</string>
+    <string name="btn_desc_open_project">Continue your project</string>
+    <string name="btn_desc_delete_project">Delete a project</string>
+    <string name="btn_desc_view_project">Watch a project slideshow</string>
+    <string name="title_activity_create_project">CreateProjectActivity</string>
+ 
 
 </resources>

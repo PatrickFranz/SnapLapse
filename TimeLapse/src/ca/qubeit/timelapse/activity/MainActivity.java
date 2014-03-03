@@ -6,26 +6,26 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import ca.qubeit.timelapse.R;
 
 public class MainActivity extends Activity {
 
-	private Button btnCreate;
-	private Button btnOpen;
-	private Button btnRemove;
-	private Button btnView;
+	private LinearLayout btnCreate;
+	private LinearLayout btnOpen;
+	private LinearLayout btnRemove;
+	private LinearLayout btnView;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Get View references
-        btnCreate = (Button)findViewById(R.id.btn_create);
-        btnOpen = (Button)findViewById(R.id.btn_open);
-        btnRemove = (Button)findViewById(R.id.btn_remove);
-        btnView = (Button)findViewById(R.id.btn_view);
+        btnCreate = (LinearLayout)findViewById(R.id.btn_create);
+        btnOpen = (LinearLayout)findViewById(R.id.btn_open);
+        btnRemove = (LinearLayout)findViewById(R.id.btn_remove);
+        btnView = (LinearLayout)findViewById(R.id.btn_view);
         
         //Set listeners on buttons
         btnCreate.setOnClickListener(new OnClickListener() {
