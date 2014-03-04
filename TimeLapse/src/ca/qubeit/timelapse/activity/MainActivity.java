@@ -1,7 +1,7 @@
 package ca.qubeit.timelapse.activity;
 
 import android.app.Activity;
-import android.graphics.Color;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,16 +9,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import ca.qubeit.timelapse.CreateProjectActivity;
 import ca.qubeit.timelapse.R;
 
 public class MainActivity extends Activity {
 
-	private LinearLayout btnCreate;
-	private LinearLayout btnOpen;
-	private LinearLayout btnRemove;
-	private LinearLayout btnView;
-	private Drawable buttonUp;
-	private Drawable buttonDown;
+	private LinearLayout 	btnCreate;
+	private LinearLayout 	btnOpen;
+	private LinearLayout	btnRemove;
+	private LinearLayout 	btnView;
+	private Drawable 		buttonUp;
+	private Drawable 		buttonDown;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +27,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         //Get View references
         btnCreate = (LinearLayout)findViewById(R.id.btn_create);
-        btnOpen = (LinearLayout)findViewById(R.id.btn_open);
+        btnOpen = 	(LinearLayout)findViewById(R.id.btn_open);
         btnRemove = (LinearLayout)findViewById(R.id.btn_remove);
-        btnView = (LinearLayout)findViewById(R.id.btn_view);
-        buttonUp = (Drawable)getResources().getDrawable(R.drawable.menu_button_shape);
+        btnView = 	(LinearLayout)findViewById(R.id.btn_view);
+        buttonUp = 	(Drawable)getResources().getDrawable(R.drawable.menu_button_shape);
         buttonDown = (Drawable)getResources().getDrawable(R.drawable.menu_button_shape_down);
         
         
@@ -38,8 +39,8 @@ public class MainActivity extends Activity {
         	@Override
 			public void onClick(View v) {
         		btnCreate.setBackgroundDrawable(buttonDown);
-				Toast.makeText(getBaseContext(), "Create a project", Toast.LENGTH_SHORT)
-				.show();				
+				Intent showCreateProjectActivity = new Intent(getBaseContext(), CreateProjectActivity.class);
+				startActivity(showCreateProjectActivity);
 			}
 		});
         

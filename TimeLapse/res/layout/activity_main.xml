@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
@@ -11,9 +10,9 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:text="Menu"
+        android:text="@string/txt_main_menu"
         android:textColor="#f1f1f1"
         android:textAppearance="?android:attr/textAppearanceLarge" 
         />
