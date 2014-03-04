@@ -3,8 +3,6 @@
  */
 package ca.qubeit.timelapse.data;
 
-import java.text.SimpleDateFormat;
-import java.text.DateFormat;
 import java.util.Date;
 
 /**

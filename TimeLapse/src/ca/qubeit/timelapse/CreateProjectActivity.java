@@ -1,6 +1,7 @@
 package ca.qubeit.timelapse;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import ca.qubeit.timelapse.data.Project;
+import ca.qubeit.timelapse.util.DataAccessHelper;
 
 public class CreateProjectActivity extends Activity {
 
@@ -19,6 +21,7 @@ public class CreateProjectActivity extends Activity {
 	private EditText intervalNumeric;
 	private Spinner  intervalUnit;
 	private Button	 submit;
+	private DataAccessHelper dao;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,17 @@ public class CreateProjectActivity extends Activity {
 				Project project = new Project(name, desc, intervalInMillis);
 				if(project != null){
 					Log.i(TAG, "Create new project titled: " + project.getName());
+					addProjectToDB(project);
 				}
+			}
+
+			private void addProjectToDB(Project project) {
+				SQLiteDatabase db = dao.getWritableDatabase();
+				String table = dao.getDatabaseName();
+				String sql = "INSERT INTO " + table;
+				
+				db.execSQL(sql);
+				
 			}
 		});		
 	}
