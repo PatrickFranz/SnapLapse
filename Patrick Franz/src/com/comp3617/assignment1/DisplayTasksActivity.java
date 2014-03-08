@@ -7,9 +7,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnDragListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -36,7 +38,7 @@ public class DisplayTasksActivity extends Activity {
 		// Get font
 		Typeface segoeUi = Typeface.createFromAsset(this.getAssets(),"SEGUISYM.TTF");
 		
-		//makeSampleTasks();
+		makeSampleTasks();
 		tvTopBar = (TextView)findViewById(R.id.tv_topBar);
 		tvTopBar.setTypeface(segoeUi);
 		
@@ -44,7 +46,7 @@ public class DisplayTasksActivity extends Activity {
 		btnAddNew = (Button)findViewById(R.id.btn_add_new);
 		
 		listViewAdapter = 
-				new ArrayAdapter<Task>(this, R.layout.task_list_layout, taskList);
+				new ArrayAdapter<Task>(this, R.layout.task_list_layout, R.id.list_due_date, taskList);
 		list.setAdapter(listViewAdapter);
 
 
@@ -57,6 +59,8 @@ public class DisplayTasksActivity extends Activity {
 				startActivityForResult(i, REQ_CODE);
 			}
 		});
+		
+	
 		
 		btnAddNew.setOnClickListener(new OnClickListener() {			
 			@Override
