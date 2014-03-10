@@ -1,6 +1,7 @@
 package ca.qubeit.timelapse;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,8 +11,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import ca.qubeit.timelapse.data.DataAccessHelper;
 import ca.qubeit.timelapse.data.Project;
-import ca.qubeit.timelapse.util.DataAccessHelper;
 
 public class CreateProjectActivity extends Activity {
 
@@ -27,7 +28,7 @@ public class CreateProjectActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_project);
-		
+		dao = new DataAccessHelper(context, name, factory, version)
 		//Get our references to UI views
 		projectName = (EditText)findViewById(R.id.et_project_name);
 		projectDescription = (EditText)findViewById(R.id.et_project_description);
@@ -64,9 +65,14 @@ public class CreateProjectActivity extends Activity {
 			private void addProjectToDB(Project project) {
 				SQLiteDatabase db = dao.getWritableDatabase();
 				String table = dao.getDatabaseName();
-				String sql = "INSERT INTO " + table;
+				ContentValues content = new ContentValues();
+				content.put("name", project.getName());
+				content.put("description", project.getDescription());
+				content.put("created_date", project.getCreatedDate().toString());
+				content.put("notify_interval", project.getNotificationInterval());
+				content.put("image_path", project.getImagePath());
 				
-				db.execSQL(sql);
+				db.insert(table, null, content);
 				
 			}
 		});		

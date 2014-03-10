@@ -1,4 +1,4 @@
-package ca.qubeit.timelapse.util;
+package ca.qubeit.timelapse.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +12,7 @@ public class DataAccessHelper extends SQLiteOpenHelper {
 	private static final String DB_NAME = "snap_lapse.db";
 	private static final String DB_TABLE = "projects";
 	private static final int DB_VERSION = 1;
+	private static final String[] DB_COLUMNS = {"_id", "name", "description", "created_date", "notify_interval", "image_path" };
 	private static final String DB_CREATE_TABLE = 
 			"CREATE TABLE " + DB_TABLE + "("
 					+ "_id integer primary key autoincrement, "
