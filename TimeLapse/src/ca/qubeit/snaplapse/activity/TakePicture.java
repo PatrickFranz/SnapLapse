@@ -18,12 +18,11 @@ public class TakePicture extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_take_picture);
-		String message = "Click the button to start.";
 //		if(cameraNotDetected()){
 //			message = "No camera detected";
 //		}
-		TextView tv = (TextView) findViewById(R.id.tv_camera_topbar);
-		tv.setText(message);		
+	
+				
 	}
 
 	@Override

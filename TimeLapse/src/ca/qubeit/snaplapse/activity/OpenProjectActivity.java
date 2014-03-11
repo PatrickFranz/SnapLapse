@@ -12,7 +12,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,7 +22,6 @@ import ca.qubeit.timelapse.R;
 
 public class OpenProjectActivity extends Activity {
 	
-	private static final int CREATE_REQ_ID = 2;
 	private static final String TAG = "OpenProjectActivity";
 	private ArrayAdapter<Project> projectAdapter;
 	private ListView lvProjectList;
@@ -36,6 +34,7 @@ public class OpenProjectActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_open_project);
+		dataSource = new ProjectDataSource(this);
 		//Get UI references
 		lvProjectList = (ListView)findViewById(R.id.lv_projects);
 		lvProjectList.setOnItemClickListener(new OnItemClickListener() {
@@ -67,7 +66,7 @@ public class OpenProjectActivity extends Activity {
 	}
 
 	private void getProjects() {		
-		dataSource = new ProjectDataSource(this);
+		
 		dataSource.open();
 		projects = dataSource.getAllProjects();
 		dataSource.close();

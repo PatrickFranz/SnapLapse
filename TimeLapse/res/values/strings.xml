@@ -44,7 +44,7 @@
         <item>year</item>
     </string-array>
 
-    
-   
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
