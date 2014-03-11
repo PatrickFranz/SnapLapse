@@ -1,8 +1,6 @@
 package ca.qubeit.timelapse;
 
 import android.app.Activity;
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,8 +9,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import ca.qubeit.timelapse.data.DataAccessHelper;
+import android.widget.Toast;
 import ca.qubeit.timelapse.data.Project;
+import ca.qubeit.timelapse.data.ProjectDataSource;
 
 public class CreateProjectActivity extends Activity {
 
@@ -22,13 +21,14 @@ public class CreateProjectActivity extends Activity {
 	private EditText intervalNumeric;
 	private Spinner  intervalUnit;
 	private Button	 submit;
-	private DataAccessHelper dao;
+	private ProjectDataSource dataSource;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_project);
-		dao = new DataAccessHelper(context, name, factory, version)
+		dataSource = new ProjectDataSource(this);
+		
 		//Get our references to UI views
 		projectName = (EditText)findViewById(R.id.et_project_name);
 		projectDescription = (EditText)findViewById(R.id.et_project_description);
@@ -57,24 +57,22 @@ public class CreateProjectActivity extends Activity {
 				
 				Project project = new Project(name, desc, intervalInMillis);
 				if(project != null){
+					long tuple = 0;
 					Log.i(TAG, "Create new project titled: " + project.getName());
-					addProjectToDB(project);
+					if( (tuple = dataSource.addProjectToDB(project) ) > 1){
+						Toast.makeText(getBaseContext()
+								,"Added " +  tuple + "row to the database."
+								, Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(getBaseContext()
+								, "Nothing added to Database"
+								, Toast.LENGTH_SHORT).show();
+					}
 				}
+				finish();
 			}
 
-			private void addProjectToDB(Project project) {
-				SQLiteDatabase db = dao.getWritableDatabase();
-				String table = dao.getDatabaseName();
-				ContentValues content = new ContentValues();
-				content.put("name", project.getName());
-				content.put("description", project.getDescription());
-				content.put("created_date", project.getCreatedDate().toString());
-				content.put("notify_interval", project.getNotificationInterval());
-				content.put("image_path", project.getImagePath());
-				
-				db.insert(table, null, content);
-				
-			}
+
 		});		
 	}
 	

@@ -26,6 +26,8 @@ public class Project {
 		this.name = name;
 		this.description = description;
 		this.notificationInterval = notificationInterval;
+		setCreatedDate();
+		setImagePath(name);
 	}
 
 	public int get_id() {
