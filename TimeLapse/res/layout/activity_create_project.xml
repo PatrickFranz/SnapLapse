@@ -113,6 +113,7 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/submit_button_shape"
         android:drawableLeft="@drawable/ico_add"
-        android:text="@string/btn_create_submit" />
+        android:text="@string/btn_create_submit" 
+        />
 
 </LinearLayout>

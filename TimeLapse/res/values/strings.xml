@@ -34,7 +34,7 @@
     <!-- Open Project strings -->
     <string name="txt_select_project">Select a Project</string>
     <string name="cd_project_preview">Project preview</string>
-    
+    <string name="btn_create_new_project">Create a new Project</string>
     <!-- String array resources -->
 
     <string-array name="time_interval_reminder">

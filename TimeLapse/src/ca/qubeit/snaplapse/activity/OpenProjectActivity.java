@@ -3,13 +3,17 @@ package ca.qubeit.snaplapse.activity;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import ca.qubeit.snaplapse.data.Project;
@@ -19,10 +23,11 @@ import ca.qubeit.timelapse.R;
 
 public class OpenProjectActivity extends Activity {
 	
+	private static final int CREATE_REQ_ID = 2;
 	private static final String TAG = "OpenProjectActivity";
-
+	private ArrayAdapter<Project> projectAdapter;
 	private ListView lvProjectList;
-	
+	private Button newProject;
 	private ProjectDataSource dataSource;
 	private List<Project> projects;
 	
@@ -34,7 +39,6 @@ public class OpenProjectActivity extends Activity {
 		//Get UI references
 		lvProjectList = (ListView)findViewById(R.id.lv_projects);
 		lvProjectList.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long id) {
@@ -44,17 +48,41 @@ public class OpenProjectActivity extends Activity {
 				
 			}
 		});
+		newProject = (Button)findViewById(R.id.btn_create_project);
+		newProject.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getBaseContext(), CreateProjectActivity.class);
+				startActivity(i);				
+			}
+		});
+		
+		
 		//Get Data
-		dataSource = new ProjectDataSource(this);
-		dataSource.open();
-		projects = dataSource.getAllProjects();
-		dataSource.close();
-		ArrayAdapter<Project> projectAdapter = new ProjectArrayAdapter(this, projects);
+		getProjects();
+		projectAdapter = new ProjectArrayAdapter(this, projects);
 		lvProjectList.setAdapter(projectAdapter);
 		
 		
 	}
 
+	private void getProjects() {		
+		dataSource = new ProjectDataSource(this);
+		dataSource.open();
+		projects = dataSource.getAllProjects();
+		dataSource.close();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		getProjects();
+		projectAdapter.clear();
+		projectAdapter.addAll(projects);
+		projectAdapter.notifyDataSetChanged();
+		
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
