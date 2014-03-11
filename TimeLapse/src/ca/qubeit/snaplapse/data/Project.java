@@ -1,7 +1,7 @@
 /**
  * A project in the SnapLapse Application
  */
-package ca.qubeit.timelapse.data;
+package ca.qubeit.snaplapse.data;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

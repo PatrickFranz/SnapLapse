@@ -1,4 +1,4 @@
-package ca.qubeit.timelapse.activity;
+package ca.qubeit.snaplapse.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import ca.qubeit.snaplapse.data.Project;
+import ca.qubeit.snaplapse.data.ProjectDataSource;
 import ca.qubeit.timelapse.R;
-import ca.qubeit.timelapse.data.Project;
-import ca.qubeit.timelapse.data.ProjectDataSource;
 
 public class CreateProjectActivity extends Activity {
 
@@ -29,6 +29,7 @@ public class CreateProjectActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_project);
 		dataSource = new ProjectDataSource(this);
+		
 		
 		//Get our references to UI views
 		projectName = (EditText)findViewById(R.id.et_project_name);
@@ -59,7 +60,8 @@ public class CreateProjectActivity extends Activity {
 				
 				//Create project and add it to the database.
 				Project project = new Project(name, desc, intervalInMillis);
-				if(project != null){					
+				if(project != null){
+					dataSource.open();
 					Log.i(TAG, "Create new project titled: " + project.getName());
 					if(dataSource.add(project) != -1){
 						Toast.makeText(getBaseContext()
@@ -70,6 +72,7 @@ public class CreateProjectActivity extends Activity {
 								, "Oops! Error creating project."
 								, Toast.LENGTH_SHORT).show();
 					}
+					dataSource.close();
 				}
 				finish();
 			}

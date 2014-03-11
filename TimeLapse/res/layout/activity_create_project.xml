@@ -106,10 +106,10 @@
     <Button
         android:id="@+id/btn_create_project_submit"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"       
         android:layout_gravity="center_horizontal"
         android:background="@drawable/submit_button_shape"
         android:drawableLeft="@drawable/ico_add"

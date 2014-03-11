@@ -1,4 +1,4 @@
-package ca.qubeit.timelapse.data;
+package ca.qubeit.snaplapse.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

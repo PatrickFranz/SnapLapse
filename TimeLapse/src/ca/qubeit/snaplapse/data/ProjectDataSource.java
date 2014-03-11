@@ -1,6 +1,7 @@
-package ca.qubeit.timelapse.data;
+package ca.qubeit.snaplapse.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,13 +17,22 @@ public class ProjectDataSource {
 		dao = new DataAccessHelper(ctx);		
 	}
 	
+	
+	
+	public void open(){
+		db = dao.getWritableDatabase();
+	}
+	
+	public void close(){
+		dao.close();
+	}
 	/**
 	 * Adds new project to the database
 	 * @param project A new project
 	 * @return The row id inserts. Or -1 if error.
 	 */
 	public long add(Project project) {
-		SQLiteDatabase db = dao.getWritableDatabase();
+		
 		ContentValues content = new ContentValues();
 		content.put("name", project.getName());
 		content.put("description", project.getDescription());
@@ -33,9 +43,9 @@ public class ProjectDataSource {
 		return db.insert("projects", null, content);				
 	}
 	
-	public ArrayList<Project> getAllProjects(){
-		db = dao.getWritableDatabase();
-		ArrayList<Project> projects = new ArrayList<Project>();
+	public List<Project> getAllProjects(){
+		
+		List<Project> projects = new ArrayList<Project>();
 		Cursor c = db.query(DataAccessHelper.DB_TABLE, DataAccessHelper.DB_COLUMNS, null, null, null, null, null);
 		
 		if(c != null && c.getCount() > 0){

@@ -1,4 +1,4 @@
-package ca.qubeit.timelapse.activity;
+package ca.qubeit.snaplapse.activity;
 
 import android.app.Activity;
 import android.content.Intent;

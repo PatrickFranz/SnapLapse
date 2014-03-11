@@ -1,4 +1,4 @@
-package ca.qubeit.timelapse.util;
+package ca.qubeit.snaplapse.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
