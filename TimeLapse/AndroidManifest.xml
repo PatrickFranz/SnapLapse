@@ -27,8 +27,12 @@
             android:label="@string/title_activity_take_picture" >
         </activity>
         <activity
-            android:name="ca.qubeit.timelapse.CreateProjectActivity"
+            android:name="ca.qubeit.timelapse.activity.CreateProjectActivity"
             android:label="@string/title_activity_create_project" >
+        </activity>
+        <activity
+            android:name="ca.qubeit.timelapse.activity.OpenProjectActivity"
+            android:label="@string/title_activity_open_project" >
         </activity>
     </application>
 

@@ -1,4 +1,4 @@
-package ca.qubeit.timelapse;
+package ca.qubeit.timelapse.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import ca.qubeit.timelapse.R;
 import ca.qubeit.timelapse.data.Project;
 import ca.qubeit.timelapse.data.ProjectDataSource;
 
@@ -43,6 +44,7 @@ public class CreateProjectActivity extends Activity {
 				String desc = "";
 				int length 	= 1;
 				//Validate input
+				
 				if(projectName.getText().length() > 1){
 					name = projectName.getText().toString();
 				}
@@ -55,17 +57,17 @@ public class CreateProjectActivity extends Activity {
 				}				
 				long intervalInMillis = getLongInterval(length, intervalUnit.getSelectedItem().toString());
 				
+				//Create project and add it to the database.
 				Project project = new Project(name, desc, intervalInMillis);
-				if(project != null){
-					long tuple = 0;
+				if(project != null){					
 					Log.i(TAG, "Create new project titled: " + project.getName());
-					if( (tuple = dataSource.addProjectToDB(project) ) > 1){
+					if(dataSource.add(project) != -1){
 						Toast.makeText(getBaseContext()
-								,"Added " +  tuple + "row to the database."
+								,"Created " + project.getName() + "."
 								, Toast.LENGTH_SHORT).show();
 					} else {
 						Toast.makeText(getBaseContext()
-								, "Nothing added to Database"
+								, "Oops! Error creating project."
 								, Toast.LENGTH_SHORT).show();
 					}
 				}

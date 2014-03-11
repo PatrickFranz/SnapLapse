@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import ca.qubeit.timelapse.CreateProjectActivity;
 import ca.qubeit.timelapse.R;
 
 public class MainActivity extends Activity {
@@ -44,8 +43,8 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				restoreButtonState();
 				btnOpen.setBackgroundResource(R.drawable.menu_button_shape_down);
-				Toast.makeText(getBaseContext(), "Open project", Toast.LENGTH_SHORT)
-				.show();				
+				Intent openProjectActivity = new Intent(getBaseContext(), OpenProjectActivity.class);
+				startActivity(openProjectActivity);
 			}
 		});
         

@@ -3,7 +3,10 @@
  */
 package ca.qubeit.timelapse.data;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author Patrick Franz
@@ -14,7 +17,7 @@ public class Project {
 	private int _id;
 	private String name;
 	private String description;
-	private Date createdDate;
+	private long createdDateInMillis;
 	private long notificationInterval;
 	private String imagePath;
 	
@@ -26,7 +29,7 @@ public class Project {
 		this.name = name;
 		this.description = description;
 		this.notificationInterval = notificationInterval;
-		setCreatedDate();
+		setCreatedDate(System.currentTimeMillis());
 		setImagePath(name);
 	}
 
@@ -54,12 +57,17 @@ public class Project {
 		this.description = description;
 	}
 
-	public Date getCreatedDate() {
-		return createdDate;
+	public long getCreatedDateInMillis() {
+		return createdDateInMillis;
+	}
+	
+	public String getCreatedDateString(){
+		DateFormat df = new SimpleDateFormat("MM:dd:YYYY",Locale.US);
+		return df.format(new Date(getCreatedDateInMillis()));				
 	}
 
-	public void setCreatedDate() {
-		this.createdDate = new Date();
+	public void setCreatedDate(long dateInMillis) {
+		this.createdDateInMillis = dateInMillis;
 	}
 
 	public long getNotificationInterval() {

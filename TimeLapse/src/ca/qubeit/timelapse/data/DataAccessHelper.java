@@ -7,17 +7,18 @@ import android.util.Log;
 
 public class DataAccessHelper extends SQLiteOpenHelper {
 
+	public static final String[] DB_COLUMNS = {"_id", "name", "description", "created_date", "notify_interval", "image_path" };
+	public static final String DB_TABLE = "projects";
+	
 	private static final String TAG = "DataAccessHelper";
 	private static final String DB_NAME = "snap_lapse.db";
-	private static final String DB_TABLE = "projects";
-	private static final int DB_VERSION = 1;
-	//private static final String[] DB_COLUMNS = {"_id", "name", "description", "created_date", "notify_interval", "image_path" };
+	private static final int DB_VERSION = 2;	
 	private static final String DB_CREATE_TABLE = 
 			"CREATE TABLE " + DB_TABLE + "("
 					+ "_id integer primary key autoincrement, "
 					+ "name text, "
 					+ "description text, "
-					+ "created_date text,"
+					+ "created_date integer,"
 					+ "notify_interval integer, "
 					+ "image_path text);";
 	
