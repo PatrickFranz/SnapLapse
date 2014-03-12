@@ -16,24 +16,21 @@ public class MediaHelper {
 
 	private final static String TAG = "MediaHelper.class";
 	public static File getOutputMediaFile(){
-	    // To be safe, you should check that the SDCard is mounted
-	    // using Environment.getExternalStorageState() before doing this.
-
-	    File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Spike");
-	    // This location works best if you want the created images to be shared
-	    // between applications and persist after your app has been uninstalled.
-
+		File mediaFile = null;
+		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+		   File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "SnapLapse");
 	    // Create the storage directory if it does not exist
-	    if (! mediaStorageDir.exists()){
-	        if (! mediaStorageDir.mkdirs()){
-	            Log.d(TAG, "failed to create directory");
-	            return null;
-	        }
-	    }
+		    if (! mediaStorageDir.exists()){
+		        if (! mediaStorageDir.mkdirs()){
+		            Log.d(TAG, "failed to create directory");
+		            return null;
+		        }
+		    }	   
 
-	    // Create a media file name
-	    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-	    File mediaFile = new File(mediaStorageDir.getPath() + File.separator +"IMG_"+ timeStamp +".jpg");
+		    // Create a media file name
+		    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+		    mediaFile = new File(mediaStorageDir.getPath() + File.separator +"IMG_"+ timeStamp +".jpg");
+		}
 
 	    return mediaFile;
 	}

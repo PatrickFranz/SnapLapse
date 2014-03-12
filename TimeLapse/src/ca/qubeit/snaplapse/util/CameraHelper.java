@@ -17,10 +17,10 @@ public class CameraHelper {
 		}
 	}
 	
-	public static Camera getCameraInstance(int cameraId){
+	public static Camera getCameraInstance(){
 		Camera camera = null;
 		try{
-			camera = Camera.open(cameraId);
+			camera = Camera.open();
 		} catch (Exception e) {
 			Log.e(TAG, "Camera not available");
 		}

@@ -8,10 +8,10 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature android:name="android.hardware.camera" />
-            A
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -39,7 +39,7 @@
             android:label="@string/title_activity_open_project" >
         </activity>
         <activity
-            android:name="ca.qubeit.timelapse.CameraActivity"
+            android:name="ca.qubeit.snaplapse.activity.CameraActivity"
             android:label="@string/title_activity_camera" >
         </activity>
     </application>

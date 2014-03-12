@@ -18,7 +18,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		super(context, attrs, defStyle);
 	}
 	
-
 	public CameraPreview(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -45,8 +44,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		} catch (IOException e) {
 			Log.e(TAG, "Error setting camera preview...");
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	
 	@Override

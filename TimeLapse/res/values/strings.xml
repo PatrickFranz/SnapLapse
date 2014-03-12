@@ -10,6 +10,7 @@
     <string name="title_activity_take_picture">Take a Picture</string>
     <string name="title_activity_create_project">Create a Project</string>
     <string name="title_activity_open_project">Open a Project</string>
+    <string name="title_activity_camera">Camera</string>
 
     <!-- Main menu strings -->
     <string name="txt_main_menu">Main Menu</string>
@@ -35,8 +36,11 @@
     <string name="txt_select_project">Select a Project</string>
     <string name="cd_project_preview">Project preview</string>
     <string name="btn_create_new_project">Create a new Project</string>
+    
+    <!-- Camera View strings -->
+    <string name="cd_preview_overlay">Image overlay</string>
+    
     <!-- String array resources -->
-
     <string-array name="time_interval_reminder">
         <item>day</item>
         <item>month</item>
@@ -44,7 +48,6 @@
         <item>year</item>
     </string-array>
 
-    <string name="title_activity_camera">CameraActivity</string>
-    <string name="hello_world">Hello world!</string>
+    
 
 </resources>

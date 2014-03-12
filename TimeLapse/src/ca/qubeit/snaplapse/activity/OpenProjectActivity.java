@@ -29,7 +29,6 @@ public class OpenProjectActivity extends Activity {
 	private ProjectDataSource dataSource;
 	private List<Project> projects;
 	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,7 +42,8 @@ public class OpenProjectActivity extends Activity {
 					long id) {
 				//ArrayAdapter<Project> projectAdapter = (ProjectArrayAdapter)lvProjectList.getAdapter();
 				Log.d(TAG, "onItemClick...");
-				Toast.makeText(getBaseContext(), "Click", Toast.LENGTH_SHORT).show();
+				Intent takePicture = new Intent(getBaseContext(), CameraActivity.class);
+				startActivity(takePicture);
 				
 			}
 		});
