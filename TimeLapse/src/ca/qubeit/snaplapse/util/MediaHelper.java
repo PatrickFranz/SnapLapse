@@ -15,10 +15,10 @@ import android.util.Log;
 public class MediaHelper {
 
 	private final static String TAG = "MediaHelper.class";
-	public static File getOutputMediaFile(){
+	public static File getOutputMediaFile(String projectName){
 		File mediaFile = null;
 		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-		   File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "SnapLapse");
+		   File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "SnapLapse/" + projectName);
 	    // Create the storage directory if it does not exist
 		    if (! mediaStorageDir.exists()){
 		        if (! mediaStorageDir.mkdirs()){

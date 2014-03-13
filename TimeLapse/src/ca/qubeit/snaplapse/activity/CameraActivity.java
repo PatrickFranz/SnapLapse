@@ -20,15 +20,19 @@ public class CameraActivity extends Activity implements PictureCallback{
 	protected static final String EXTRA_IMAGE_PATH = "ca.qubeit.snaplapse.activity.CameraActivity.EXTRA_IMAGE_PATH";
 	private Camera camera;
 	private CameraPreview cameraPreview;
+	private String projectName;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         setResult(RESULT_CANCELED);
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+        	projectName = extras.getString("projectName");
+        }
         camera = CameraHelper.getCameraInstance();
-        initCameraPreview();
-       
+        initCameraPreview();   
         
     }
     
@@ -51,7 +55,7 @@ public class CameraActivity extends Activity implements PictureCallback{
 	}
     
     private String savePictureToFileSystem(byte[] data){
-    	File file = MediaHelper.getOutputMediaFile();
+    	File file = MediaHelper.getOutputMediaFile(projectName);
     	MediaHelper.saveToFile(data, file);
     	return file.getAbsolutePath();
     }

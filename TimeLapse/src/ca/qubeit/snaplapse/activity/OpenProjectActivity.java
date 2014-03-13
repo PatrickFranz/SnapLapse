@@ -14,7 +14,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
 import ca.qubeit.snaplapse.view.ProjectArrayAdapter;
@@ -43,6 +42,7 @@ public class OpenProjectActivity extends Activity {
 				//ArrayAdapter<Project> projectAdapter = (ProjectArrayAdapter)lvProjectList.getAdapter();
 				Log.d(TAG, "onItemClick...");
 				Intent takePicture = new Intent(getBaseContext(), CameraActivity.class);
+				takePicture.putExtra("projectName", projects.get(position).getName());
 				startActivity(takePicture);
 				
 			}
