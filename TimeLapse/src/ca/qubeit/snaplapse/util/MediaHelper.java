@@ -8,14 +8,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
 
 
 public class MediaHelper {
 
-	private final static String TAG = "MediaHelper.class";
-	public static File getOutputMediaFile(String projectName){
+	private final static String TAG = "MediaHelper";
+	public static File getOutputImageFile(String projectName){
 		File mediaFile = null;
 		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
 		   File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "SnapLapse/" + projectName);
@@ -25,8 +27,7 @@ public class MediaHelper {
 		            Log.d(TAG, "failed to create directory");
 		            return null;
 		        }
-		    }	   
-
+		    }
 		    // Create a media file name
 		    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
 		    mediaFile = new File(mediaStorageDir.getPath() + File.separator +"IMG_"+ timeStamp +".jpg");
@@ -48,6 +49,15 @@ public class MediaHelper {
 			Log.e("IOException", e.getMessage());
 		}
 		return saved;
+	}
+	
+	public static Bitmap getImageFile(String path){
+		File imgFile = new File(path);
+		Bitmap bmImage = null;
+		if(imgFile.exists()){
+			bmImage = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+		}
+		return bmImage;
 	}
 
 }

@@ -14,10 +14,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
 import ca.qubeit.snaplapse.view.ProjectArrayAdapter;
-import ca.qubeit.timelapse.R;
 
 public class OpenProjectActivity extends Activity {
 	
@@ -34,7 +34,7 @@ public class OpenProjectActivity extends Activity {
 		setContentView(R.layout.activity_open_project);
 		dataSource = new ProjectDataSource(this);
 		//Get UI references
-		lvProjectList = (ListView)findViewById(R.id.lv_projects);
+		lvProjectList = (ListView)findViewById(R.id.lv_open_projects);
 		lvProjectList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
@@ -54,14 +54,12 @@ public class OpenProjectActivity extends Activity {
 				Intent i = new Intent(getBaseContext(), CreateProjectActivity.class);
 				startActivity(i);				
 			}
-		});
-		
+		});		
 		
 		//Get Data
 		getProjects();
 		projectAdapter = new ProjectArrayAdapter(this, projects);
 		lvProjectList.setAdapter(projectAdapter);
-		
 		
 	}
 

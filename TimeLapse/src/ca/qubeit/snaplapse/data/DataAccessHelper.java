@@ -3,16 +3,19 @@ package ca.qubeit.snaplapse.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 import android.util.Log;
 
 public class DataAccessHelper extends SQLiteOpenHelper {
 
 	public static final String[] DB_COLUMNS = {"_id", "name", "description", "created_date", "notify_interval", "image_path" };
 	public static final String DB_TABLE = "projects";
+	public static final String DB_COLUMN_ID = BaseColumns._ID;
 	
 	private static final String TAG = "DataAccessHelper";
 	private static final String DB_NAME = "snap_lapse.db";
 	private static final int DB_VERSION = 2;	
+	
 	private static final String DB_CREATE_TABLE = 
 			"CREATE TABLE " + DB_TABLE + "("
 					+ "_id integer primary key autoincrement, "

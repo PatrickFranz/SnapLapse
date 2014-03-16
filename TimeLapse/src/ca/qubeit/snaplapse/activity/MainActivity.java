@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import ca.qubeit.timelapse.R;
+import ca.qubeit.snaplapse.R;
 
 public class MainActivity extends Activity {
 
@@ -53,8 +53,8 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				restoreButtonState();
 				btnRemove.setBackgroundResource(R.drawable.menu_button_shape_down);
-				Toast.makeText(getBaseContext(), "Remove a project", Toast.LENGTH_SHORT)
-				.show();
+				Intent removeProject = new Intent(getBaseContext(), RemoveProjectActivity.class);
+				startActivity(removeProject);
 			}
 		});
         

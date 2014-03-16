@@ -10,10 +10,13 @@ import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
+import ca.qubeit.snaplapse.R;
+import ca.qubeit.snaplapse.data.Project;
+import ca.qubeit.snaplapse.data.ProjectDataSource;
 import ca.qubeit.snaplapse.util.CameraHelper;
 import ca.qubeit.snaplapse.util.MediaHelper;
 import ca.qubeit.snaplapse.view.CameraPreview;
-import ca.qubeit.timelapse.R;
 
 public class CameraActivity extends Activity implements PictureCallback{
 
@@ -21,23 +24,51 @@ public class CameraActivity extends Activity implements PictureCallback{
 	private Camera camera;
 	private CameraPreview cameraPreview;
 	private String projectName;
+	private ImageView ivBackingImage;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        camera = CameraHelper.getCameraInstance();
         setResult(RESULT_CANCELED);
         Bundle extras = getIntent().getExtras();
         if(extras != null){
         	projectName = extras.getString("projectName");
         }
-        camera = CameraHelper.getCameraInstance();
+        ivBackingImage = (ImageView)findViewById(R.id.iv_camera_preview_overlay);
+        setBackingImage();       
         initCameraPreview();   
         
     }
     
+    @SuppressWarnings("deprecation")
+	private void setBackingImage(){
+    	if(projectName != null){
+    		Project project = getProject(projectName);
+    		if(project.getImagePath() != null){
+    			if(MediaHelper.getImageFile(project.getImagePath()) != null){
+    				ivBackingImage.setImageBitmap(MediaHelper.getImageFile(project.getImagePath()));
+    				ivBackingImage.setAlpha(50);
+    			}
+    		}
+    	}
+    }
+    /**
+     * Gets the current Project object we are working on
+     * @param name The name of Project
+     * @return A Project Object
+     */
+    private Project getProject(String name){
+    	ProjectDataSource dataSource = new ProjectDataSource(this);
+    	dataSource.open();
+    	Project p = dataSource.getProject(name);
+    	dataSource.close();
+    	return p;
+    }
+    
     private void initCameraPreview(){
-   
+    	
     	cameraPreview = (CameraPreview)findViewById(R.id.camera_preview);
     	cameraPreview.init(camera);
     }
@@ -55,7 +86,7 @@ public class CameraActivity extends Activity implements PictureCallback{
 	}
     
     private String savePictureToFileSystem(byte[] data){
-    	File file = MediaHelper.getOutputMediaFile(projectName);
+    	File file = MediaHelper.getOutputImageFile(projectName);
     	MediaHelper.saveToFile(data, file);
     	return file.getAbsolutePath();
     }
@@ -75,6 +106,9 @@ public class CameraActivity extends Activity implements PictureCallback{
     @Override
     protected void onResume() {
     	super.onResume();
+    	if(camera == null){
+    		camera = CameraHelper.getCameraInstance();
+    	}
     	initCameraPreview();
     }
     

@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
-import ca.qubeit.timelapse.R;
 
 public class CreateProjectActivity extends Activity {
 

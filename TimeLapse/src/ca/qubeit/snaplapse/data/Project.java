@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import android.os.Environment;
+
 /**
  * @author Patrick Franz
  *
@@ -30,7 +32,7 @@ public class Project {
 		this.description = description;
 		this.notificationInterval = notificationInterval;
 		setCreatedDate(System.currentTimeMillis());
-		setImagePath(name);
+		setImagePath(Environment.DIRECTORY_PICTURES + "/SnapLapse/" + name);
 	}
 
 	public int get_id() {
