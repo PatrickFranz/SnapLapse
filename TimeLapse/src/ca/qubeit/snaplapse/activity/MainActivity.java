@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import ca.qubeit.snaplapse.R;
 
 public class MainActivity extends Activity {
@@ -63,8 +62,8 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				restoreButtonState();
 				btnView.setBackgroundResource(R.drawable.menu_button_shape_down);
-				Toast.makeText(getBaseContext(), "View project", Toast.LENGTH_SHORT)
-				.show();
+				Intent viewProject = new Intent(getBaseContext(), ViewProjectActivity.class);
+				startActivity(viewProject);
 			}
 		});
     }

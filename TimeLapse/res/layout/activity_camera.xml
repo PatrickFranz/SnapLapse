@@ -10,24 +10,26 @@
         android:layout_height="fill_parent"
         />
     
-    <ImageView
+    
+  	<LinearLayout 
+  	    android:layout_height="fill_parent"
+  	    android:layout_width="fill_parent"
+  	    android:orientation="vertical"
+  	    >
+  	    
+  	    <ImageView
         android:id="@+id/iv_camera_preview_overlay"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:contentDescription="@string/cd_preview_overlay"
+        
         />
-  	<LinearLayout 
-  	    android:layout_height="wrap_content"
-  	    android:layout_width="fill_parent"
-  	    android:layout_gravity="bottom"
-  	    >
-	    <Button 
+	    <ImageButton 
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_gravity="bottom|center_horizontal"
 	        android:onClick="onCaptureClick"
 	        android:padding="10dp"
-	        android:text="Click"
+	        android:src="@drawable/ic_launcher"
 	        />
     </LinearLayout>
 

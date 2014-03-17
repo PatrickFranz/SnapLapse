@@ -32,7 +32,7 @@ public class Project {
 		this.description = description;
 		this.notificationInterval = notificationInterval;
 		setCreatedDate(System.currentTimeMillis());
-		setImagePath(Environment.DIRECTORY_PICTURES + "/SnapLapse/" + name);
+		setImagePath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/SnapLapse/" + name);
 	}
 
 	public int get_id() {

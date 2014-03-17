@@ -2,12 +2,16 @@ package ca.qubeit.snaplapse.activity;
 
 
 import java.io.File;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,13 +25,18 @@ import ca.qubeit.snaplapse.view.CameraPreview;
 public class CameraActivity extends Activity implements PictureCallback{
 
 	protected static final String EXTRA_IMAGE_PATH = "ca.qubeit.snaplapse.activity.CameraActivity.EXTRA_IMAGE_PATH";
+	private final String TAG = "CameraActivity";
 	private Camera camera;
 	private CameraPreview cameraPreview;
 	private String projectName;
 	private ImageView ivBackingImage;
+	private int iv_height = 240;
+	private int iv_width =  400;
+	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    	Log.d(TAG, "onCreate() ....");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         camera = CameraHelper.getCameraInstance();
@@ -37,19 +46,23 @@ public class CameraActivity extends Activity implements PictureCallback{
         	projectName = extras.getString("projectName");
         }
         ivBackingImage = (ImageView)findViewById(R.id.iv_camera_preview_overlay);
-        setBackingImage();       
-        initCameraPreview();   
-        
+        initCameraPreview();
+        setBackingImage();      
     }
     
-    @SuppressWarnings("deprecation")
 	private void setBackingImage(){
+		Log.d(TAG, "setBackingImage() ....");
     	if(projectName != null){
     		Project project = getProject(projectName);
     		if(project.getImagePath() != null){
-    			if(MediaHelper.getImageFile(project.getImagePath()) != null){
-    				ivBackingImage.setImageBitmap(MediaHelper.getImageFile(project.getImagePath()));
-    				ivBackingImage.setAlpha(50);
+    			Bitmap image = MediaHelper.getLatestImageFile(project.getImagePath());
+    			
+    			if(image != null){
+    				image = Bitmap.createScaledBitmap(image, iv_width, iv_height, true);
+    				
+    				ivBackingImage.setImageBitmap(image);
+    				ivBackingImage.setRotation(90);
+    				ivBackingImage.setAlpha(0.5f);
     			}
     		}
     	}
@@ -68,9 +81,10 @@ public class CameraActivity extends Activity implements PictureCallback{
     }
     
     private void initCameraPreview(){
-    	
+    	Log.d(TAG, "initCameraPreview() ....");
     	cameraPreview = (CameraPreview)findViewById(R.id.camera_preview);
     	cameraPreview.init(camera);
+    	
     }
     
     //FromXML
@@ -105,10 +119,17 @@ public class CameraActivity extends Activity implements PictureCallback{
     
     @Override
     protected void onResume() {
+    	Log.d(TAG, "onResume() ....");
     	super.onResume();
     	if(camera == null){
     		camera = CameraHelper.getCameraInstance();
     	}
+    	try {
+			camera.reconnect();
+		} catch (IOException e) {
+			Log.d(TAG, "Unable to reconnect to camera");
+		}
+    	setBackingImage();
     	initCameraPreview();
     }
     
@@ -118,6 +139,8 @@ public class CameraActivity extends Activity implements PictureCallback{
     		camera = null;
     	}
     }
+    
+  
 
 
     @Override

@@ -13,7 +13,7 @@
     <string name="title_activity_create_project">Create a Project</string>
     <string name="title_activity_open_project">Open a Project</string>
     <string name="title_activity_camera">Camera</string>
-      <string name="title_activity_remove">Remove Project</string>
+    <string name="title_activity_remove">Remove Project</string>
 
     <!-- Main menu strings -->
     <string name="txt_main_menu">Main Menu</string>
@@ -33,7 +33,6 @@
     <string name="txt_project_desc">Description</string>
     <string name="hint_project_name">Name your project</string>
     <string name="hint_project_description">A brief description</string>
-    
 
     <!-- Open/Remove Project strings -->
     <string name="txt_select_project">Select a Project</string>
@@ -42,13 +41,11 @@
     <string name="dlg_remove_title">Remove this project?</string>
     <string name="dlg_warning_msg">This will delete the project.\nThe images will NOT be deleted.</string>
     <string name="dlg_confirmation">Are you sure?</string>
-    
-    
+
     <!-- Button Common Strings -->
     <string name="btn_remove_project">Remove this Project</string>
     <string name="btn_create_submit">Create this Project</string>
-    
-    
+
     <!-- Camera View strings -->
     <string name="cd_preview_overlay">Image overlay</string>
 
@@ -60,7 +57,7 @@
         <item>year</item>
     </string-array>
 
-  
-   
+    <string name="title_activity_view_project">ViewProjectActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

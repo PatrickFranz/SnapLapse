@@ -1,6 +1,7 @@
 package ca.qubeit.snaplapse.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class MediaHelper {
 	private final static String TAG = "MediaHelper";
 	public static File getOutputImageFile(String projectName){
 		File mediaFile = null;
-		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+		if(isMediaMounted()){
 		   File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "SnapLapse/" + projectName);
 	    // Create the storage directory if it does not exist
 		    if (! mediaStorageDir.exists()){
@@ -30,7 +31,7 @@ public class MediaHelper {
 		    }
 		    // Create a media file name
 		    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-		    mediaFile = new File(mediaStorageDir.getPath() + File.separator +"IMG_"+ timeStamp +".jpg");
+		    mediaFile = new File(mediaStorageDir.getPath() + File.separator + timeStamp + ".jpg");
 		}
 
 	    return mediaFile;
@@ -51,13 +52,55 @@ public class MediaHelper {
 		return saved;
 	}
 	
-	public static Bitmap getImageFile(String path){
-		File imgFile = new File(path);
-		Bitmap bmImage = null;
-		if(imgFile.exists()){
-			bmImage = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+	public static Bitmap getLatestImageFile(String path){
+		try{
+			BitmapFactory.Options opts = new BitmapFactory.Options();
+			opts.inJustDecodeBounds = true;
+			File imgFile = findMostRecentImage(path);
+			
+			BitmapFactory.decodeStream(new FileInputStream(imgFile), null, opts);
+			//Find proper scale value
+			final int REQ_SIZE = 300;
+			int width = opts.outWidth;
+			int height = opts.outHeight;
+			int scale = 1;
+			while(true){
+				if(width / 2 < REQ_SIZE || height / 2 < REQ_SIZE){
+					break;
+				}
+				width  /= 2;
+				height /= 2;
+				scale++;
+			}
+			BitmapFactory.Options opts2 = new BitmapFactory.Options();
+			opts2.inSampleSize = scale;
+			return BitmapFactory.decodeStream(new FileInputStream(imgFile), null, opts2);
+		} catch (FileNotFoundException ex){
+			Log.d(TAG, "Problem loading file for scaling...");
 		}
-		return bmImage;
+		return null;	
+	}
+
+	private static File findMostRecentImage(String path) {
+		File mostRecentFile = null;
+		if(isMediaMounted()){
+			File fileDir = new File(path);
+			
+			File[] files = fileDir.listFiles();
+			long newest = files[0].lastModified();
+			for(File file : files){
+				if(file.lastModified() > newest){
+					newest = file.lastModified();
+					mostRecentFile = file;
+				}
+			}
+		}
+		return mostRecentFile;
+	}
+	
+	private static boolean isMediaMounted(){
+		final String state = Environment.getExternalStorageState();
+		return Environment.MEDIA_MOUNTED.equals(state);		
 	}
 
 }
