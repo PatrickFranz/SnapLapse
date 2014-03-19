@@ -14,6 +14,7 @@
     <string name="title_activity_open_project">Open a Project</string>
     <string name="title_activity_camera">Camera</string>
     <string name="title_activity_remove">Remove Project</string>
+    <string name="title_activity_view_project">View a Project</string>
 
     <!-- Main menu strings -->
     <string name="txt_main_menu">Main Menu</string>
@@ -48,6 +49,7 @@
 
     <!-- Camera View strings -->
     <string name="cd_preview_overlay">Image overlay</string>
+    <string name="btn_view_slideshow">View</string>
 
     <!-- String array resources -->
     <string-array name="time_interval_reminder">
@@ -57,7 +59,7 @@
         <item>year</item>
     </string-array>
 
-    <string name="title_activity_view_project">ViewProjectActivity</string>
+    <string name="title_activity_slide_show">SlideShowActivity</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>

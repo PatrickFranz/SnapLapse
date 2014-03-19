@@ -1,42 +1,80 @@
 package ca.qubeit.snaplapse.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
-import android.graphics.Bitmap;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
-import android.widget.ImageView;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
-import ca.qubeit.snaplapse.util.MediaHelper;
+import ca.qubeit.snaplapse.view.ProjectArrayAdapter;
 
 public class ViewProjectActivity extends Activity {
 
-	private String projectName = "Go Jin";
-	
+	private final String TAG = "ViewProjectActivity";
+	private ListView lvProjects;
+	private Button btnViewShow;
+	private ArrayAdapter<Project> adapter;
+	private List<Project> projects;
+	private long selected;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_project);
-		Project project = getProject(projectName);
-		Bitmap bm = MediaHelper.getLatestImageFile(project.getImagePath());
-		ImageView iv = (ImageView)findViewById(R.id.iv_view_project);
+		projects = new ArrayList<Project>();
 		
-		iv.setImageBitmap(bm);
+		
+	
+		//Get UI Refs
+		lvProjects = (ListView)findViewById(R.id.lv_view_projects);
+		btnViewShow = (Button)findViewById(R.id.btn_view_slideshow);
+		
+		//Add listeners
+		lvProjects.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View view, int position,
+					long id) {
+				Log.d(TAG, "Clicked: " + projects.get(position).getName());
+				selected = projects.get(position).get_id();
+				btnViewShow.setText(getString(R.string.btn_view_slideshow) + " " + projects.get(position).getName() );
+				btnViewShow.setTextColor(Color.DKGRAY);
+				btnViewShow.setTextSize(30);
+			}
+		});
+		
+		btnViewShow.setOnClickListener(new OnClickListener() {	
+			
+			@Override
+			public void onClick(View v) {				
+				Log.d(TAG, "Clicked submit");
+				Intent showSlides = new Intent(getBaseContext(), SlideShowActivity.class);
+				showSlides.putExtra("projectId", selected);
+				startActivity(showSlides);				
+			}
+		});
+		getProjects();
+		adapter = new ProjectArrayAdapter(this, projects);
+		lvProjects.setAdapter(adapter);
 	}
-
-    /**
-     * Gets the current Project object we are working on
-     * @param name The name of Project
-     * @return A Project Object
-     */
-    private Project getProject(String name){
-    	ProjectDataSource dataSource = new ProjectDataSource(this);
-    	dataSource.open();
-    	Project p = dataSource.getProject(name);
-    	dataSource.close();
-    	return p;
-    }
+	
+	private void getProjects() {		
+		ProjectDataSource dataSource = new ProjectDataSource(this);
+		dataSource.open();
+		projects = dataSource.getAllProjects();
+		dataSource.close();
+	}
 	
 
 	@Override

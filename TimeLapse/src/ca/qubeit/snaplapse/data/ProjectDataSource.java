@@ -68,7 +68,23 @@ public class ProjectDataSource {
 	}
 	
 	public Project getProject(String name){		
-		String selection = "name = '" + name + "'";
+		String selection = "name = \"" + name + "\"";
+		Project project = new Project();
+		Cursor c = db.query(DataAccessHelper.DB_TABLE, DataAccessHelper.DB_COLUMNS, selection, null, null, null, null, null);
+		if(c != null && c.getCount() > 0){
+			c.moveToFirst();
+			project.set_id(c.getInt(c.getColumnIndex("_id")));
+			project.setName(c.getString(c.getColumnIndex("name")));
+			project.setDescription(c.getString(c.getColumnIndex("description")));
+			project.setCreatedDate(c.getLong(c.getColumnIndex("created_date")));
+			project.setNotificationInterval(c.getLong(c.getColumnIndex("notify_interval")));
+			project.setImagePath(c.getString(c.getColumnIndex("image_path")));
+		}		
+		return project;
+	}
+	
+	public Project getProject(long id){		
+		String selection = "_id = " + id;
 		Project project = new Project();
 		Cursor c = db.query(DataAccessHelper.DB_TABLE, DataAccessHelper.DB_COLUMNS, selection, null, null, null, null, null);
 		if(c != null && c.getCount() > 0){

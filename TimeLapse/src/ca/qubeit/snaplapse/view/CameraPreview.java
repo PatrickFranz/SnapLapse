@@ -49,8 +49,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	
 	private void initCamera(SurfaceHolder holder){
 		try{
-			camera.setPreviewDisplay(holder);
-			Camera.Parameters param;			
+			camera.setPreviewDisplay(holder);		
 			camera.startPreview();
 			isPreviewRunning = true;
 			
@@ -71,7 +70,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		
 		 if(display.getRotation() == Surface.ROTATION_0)
 	        {
-			 	//params.setPreviewSize(height, width);                           
+			 //	params.setPreviewSize(height, width);                           
 	            camera.setDisplayOrientation(90);
 	        }
 
@@ -82,7 +81,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 	        if(display.getRotation() == Surface.ROTATION_180)
 	        {
-	        //	params.setPreviewSize(height, width);               
+	       // 	params.setPreviewSize(height, width);               
 	        }
 
 	        if(display.getRotation() == Surface.ROTATION_270)
@@ -97,7 +96,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		//initCamera(holder);
+		initCamera(holder);
 		
 	}
 

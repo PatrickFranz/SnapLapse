@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -53,32 +54,38 @@ public class MediaHelper {
 	}
 	
 	public static Bitmap getLatestImageFile(String path){
-		try{
+		File imgFile = findMostRecentImage(path);
+		getScaledImage(imgFile);
+		return null;
+	}
+
+	public static Bitmap getScaledImage(File imgFile) {
+		try{			
 			BitmapFactory.Options opts = new BitmapFactory.Options();
 			opts.inJustDecodeBounds = true;
-			File imgFile = findMostRecentImage(path);
-			
-			BitmapFactory.decodeStream(new FileInputStream(imgFile), null, opts);
-			//Find proper scale value
-			final int REQ_SIZE = 300;
-			int width = opts.outWidth;
-			int height = opts.outHeight;
-			int scale = 1;
-			while(true){
-				if(width / 2 < REQ_SIZE || height / 2 < REQ_SIZE){
-					break;
+			if(imgFile != null){
+				BitmapFactory.decodeStream(new FileInputStream(imgFile), null, opts);
+				//Find proper scale value
+				final int REQ_SIZE = 70;
+				int width = opts.outWidth;
+				int height = opts.outHeight;
+				int scale = 1;
+				while(true){
+					if(width / 2 < REQ_SIZE || height / 2 < REQ_SIZE){
+						break;
+					}
+					width  /= 2;
+					height /= 2;
+					scale++;
 				}
-				width  /= 2;
-				height /= 2;
-				scale++;
+				BitmapFactory.Options opts2 = new BitmapFactory.Options();
+				opts2.inSampleSize = scale;
+				return BitmapFactory.decodeStream(new FileInputStream(imgFile), null, opts2);
 			}
-			BitmapFactory.Options opts2 = new BitmapFactory.Options();
-			opts2.inSampleSize = scale;
-			return BitmapFactory.decodeStream(new FileInputStream(imgFile), null, opts2);
 		} catch (FileNotFoundException ex){
 			Log.d(TAG, "Problem loading file for scaling...");
 		}
-		return null;	
+		return null;
 	}
 
 	private static File findMostRecentImage(String path) {
@@ -87,15 +94,29 @@ public class MediaHelper {
 			File fileDir = new File(path);
 			
 			File[] files = fileDir.listFiles();
-			long newest = files[0].lastModified();
-			for(File file : files){
-				if(file.lastModified() > newest){
-					newest = file.lastModified();
-					mostRecentFile = file;
+			if(files != null){
+				long newest = files[0].lastModified();
+				for(File file : files){
+					if(file.lastModified() > newest){
+						newest = file.lastModified();
+						mostRecentFile = file;
+					}
 				}
 			}
 		}
 		return mostRecentFile;
+	}
+	
+	public static File[] getProjectFilenames(String path) {
+		File[] files = null;
+		if(isMediaMounted()){
+			
+			File fileDir = new File(path);
+			if(fileDir != null){
+				files = fileDir.listFiles();
+			}			
+		}
+		return files;
 	}
 	
 	private static boolean isMediaMounted(){

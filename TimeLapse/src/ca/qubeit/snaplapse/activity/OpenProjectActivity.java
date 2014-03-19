@@ -24,15 +24,14 @@ public class OpenProjectActivity extends Activity {
 	private static final String TAG = "OpenProjectActivity";
 	private ArrayAdapter<Project> projectAdapter;
 	private ListView lvProjectList;
-	private Button newProject;
-	private ProjectDataSource dataSource;
+	private Button newProject;	
 	private List<Project> projects;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_open_project);
-		dataSource = new ProjectDataSource(this);
+		
 		//Get UI references
 		lvProjectList = (ListView)findViewById(R.id.lv_open_projects);
 		lvProjectList.setOnItemClickListener(new OnItemClickListener() {
@@ -64,7 +63,7 @@ public class OpenProjectActivity extends Activity {
 	}
 
 	private void getProjects() {		
-		
+		ProjectDataSource dataSource = new ProjectDataSource(this);
 		dataSource.open();
 		projects = dataSource.getAllProjects();
 		dataSource.close();

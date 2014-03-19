@@ -7,13 +7,15 @@ import java.io.IOException;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Point;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
@@ -30,8 +32,7 @@ public class CameraActivity extends Activity implements PictureCallback{
 	private CameraPreview cameraPreview;
 	private String projectName;
 	private ImageView ivBackingImage;
-	private int iv_height = 240;
-	private int iv_width =  400;
+	
 	
 	
     @Override
@@ -52,14 +53,18 @@ public class CameraActivity extends Activity implements PictureCallback{
     
 	private void setBackingImage(){
 		Log.d(TAG, "setBackingImage() ....");
+		Bitmap image = null;
     	if(projectName != null){
     		Project project = getProject(projectName);
     		if(project.getImagePath() != null){
-    			Bitmap image = MediaHelper.getLatestImageFile(project.getImagePath());
-    			
+    			image = MediaHelper.getLatestImageFile(project.getImagePath());    			
     			if(image != null){
-    				image = Bitmap.createScaledBitmap(image, iv_width, iv_height, true);
-    				
+    				int imgWidth = image.getWidth();
+    				int imgHeight = image.getHeight();
+    				int newWidth = getScreenWidth();
+    				float scaleFactor = (float)newWidth / (float)imgWidth;
+    				int newHeight = (int) (imgHeight * scaleFactor);
+    				image = Bitmap.createScaledBitmap(image, newWidth, newHeight, true);
     				ivBackingImage.setImageBitmap(image);
     				ivBackingImage.setRotation(90);
     				ivBackingImage.setAlpha(0.5f);
@@ -78,6 +83,13 @@ public class CameraActivity extends Activity implements PictureCallback{
     	Project p = dataSource.getProject(name);
     	dataSource.close();
     	return p;
+    }
+    
+    private int getScreenWidth(){
+    	Display display = ((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+    	Point outSize = new Point();
+    	display.getSize(outSize);
+    	return outSize.y;
     }
     
     private void initCameraPreview(){
@@ -140,9 +152,6 @@ public class CameraActivity extends Activity implements PictureCallback{
     	}
     }
     
-  
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

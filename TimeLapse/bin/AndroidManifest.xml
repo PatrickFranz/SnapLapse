@@ -57,6 +57,10 @@
             android:name="ca.qubeit.snaplapse.activity.ViewProjectActivity"
             android:label="@string/title_activity_view_project" >
         </activity>
+        <activity
+            android:name="ca.qubeit.snaplapse.activity.SlideShowActivity"
+            android:label="@string/title_activity_slide_show" >
+        </activity>
     </application>
 
 </manifest>

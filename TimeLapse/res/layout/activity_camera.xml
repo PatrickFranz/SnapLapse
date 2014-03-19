@@ -1,36 +1,32 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CameraActivity" >
+    tools:context=".CameraActivity" > 
     
-    <ca.qubeit.snaplapse.view.CameraPreview 
+
+    <ca.qubeit.snaplapse.view.CameraPreview
         android:id="@+id/camera_preview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        />
-    
-    
-  	<LinearLayout 
-  	    android:layout_height="fill_parent"
-  	    android:layout_width="fill_parent"
-  	    android:orientation="vertical"
-  	    >
-  	    
-  	    <ImageView
-        android:id="@+id/iv_camera_preview_overlay"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:contentDescription="@string/cd_preview_overlay"
-        
-        />
-	    <ImageButton 
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:onClick="onCaptureClick"
-	        android:padding="10dp"
-	        android:src="@drawable/ic_launcher"
-	        />
-    </LinearLayout>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/iv_camera_preview_overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"       
+        android:contentDescription="@string/cd_preview_overlay" />
+
+    <ImageButton
+        android:id="@+id/ImageButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="onCaptureClick"
+        android:padding="10dp"
+        android:src="@drawable/ic_launcher" />
+
+</RelativeLayout>
