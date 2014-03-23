@@ -15,6 +15,7 @@
     <string name="title_activity_camera">Camera</string>
     <string name="title_activity_remove">Remove Project</string>
     <string name="title_activity_view_project">View a Project</string>
+     <string name="title_activity_slide_show">Slide Show</string>
 
     <!-- Main menu strings -->
     <string name="txt_main_menu">Main Menu</string>
@@ -43,6 +44,9 @@
     <string name="dlg_warning_msg">This will delete the project.\nThe images will NOT be deleted.</string>
     <string name="dlg_confirmation">Are you sure?</string>
 
+     <!-- SlideShow Activity strings -->
+    <string name="txt_loading">Preparing Slideshow #8230;.</string>
+    
     <!-- Button Common Strings -->
     <string name="btn_remove_project">Remove this Project</string>
     <string name="btn_create_submit">Create this Project</string>
@@ -50,6 +54,7 @@
     <!-- Camera View strings -->
     <string name="cd_preview_overlay">Image overlay</string>
     <string name="btn_view_slideshow">View</string>
+    <string name="txt_tog_preview">Past Preview</string>
 
     <!-- String array resources -->
     <string-array name="time_interval_reminder">
@@ -59,7 +64,6 @@
         <item>year</item>
     </string-array>
 
-    <string name="title_activity_slide_show">SlideShowActivity</string>
-    <string name="hello_world">Hello world!</string>
+   
 
 </resources>

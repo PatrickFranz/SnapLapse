@@ -1,10 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelativeLayout1"
+    android:id="@+id/rel_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CameraActivity" > 
-    
+    tools:context=".CameraActivity" >
 
     <ca.qubeit.snaplapse.view.CameraPreview
         android:id="@+id/camera_preview"
@@ -15,18 +14,43 @@
 
     <ImageView
         android:id="@+id/iv_camera_preview_overlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"       
-        android:contentDescription="@string/cd_preview_overlay" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:adjustViewBounds="true"
+        android:background="#000000"
+        android:contentDescription="@string/cd_preview_overlay"
+        android:scaleType="fitCenter" />
 
-    <ImageButton
-        android:id="@+id/ImageButton1"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/button_bar"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="onCaptureClick"
-        android:padding="10dp"
-        android:src="@drawable/ic_launcher" />
+        android:layout_alignParentLeft="true"
+        android:background="#494949"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/btn_take_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/shape_take_picture_btn"
+            android:onClick="onCaptureClick"
+            android:padding="10dp"
+            android:src="@drawable/ic_launcher" />
+
+    </RelativeLayout>
+
+    <Switch
+        android:id="@+id/tog_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textColor="#e5a833"
+        android:text="@string/txt_tog_preview" />
 
 </RelativeLayout>

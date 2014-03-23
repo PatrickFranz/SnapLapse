@@ -12,11 +12,12 @@ import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
@@ -32,7 +33,8 @@ public class CameraActivity extends Activity implements PictureCallback{
 	private CameraPreview cameraPreview;
 	private String projectName;
 	private ImageView ivBackingImage;
-	
+	private Point screenSize;
+	private Switch togglePreview;
 	
 	
     @Override
@@ -41,6 +43,16 @@ public class CameraActivity extends Activity implements PictureCallback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         camera = CameraHelper.getCameraInstance();
+        screenSize = MediaHelper.getScreenSize(this);
+        togglePreview = (Switch)findViewById(R.id.tog_preview);
+        togglePreview.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				setBackingImage(isChecked);								
+			}
+		});
+        
         setResult(RESULT_CANCELED);
         Bundle extras = getIntent().getExtras();
         if(extras != null){
@@ -48,30 +60,32 @@ public class CameraActivity extends Activity implements PictureCallback{
         }
         ivBackingImage = (ImageView)findViewById(R.id.iv_camera_preview_overlay);
         initCameraPreview();
-        setBackingImage();      
+        setBackingImage(false);
     }
     
-	private void setBackingImage(){
+
+	private void setBackingImage(boolean isOn){
 		Log.d(TAG, "setBackingImage() ....");
 		Bitmap image = null;
-    	if(projectName != null){
+    	if(projectName != null && isOn){
     		Project project = getProject(projectName);
     		if(project.getImagePath() != null){
-    			image = MediaHelper.getLatestImageFile(project.getImagePath());    			
+    			image = MediaHelper.getLatestImageFile(project.getImagePath(), screenSize.x, screenSize.y); 			
     			if(image != null){
-    				int imgWidth = image.getWidth();
-    				int imgHeight = image.getHeight();
-    				int newWidth = getScreenWidth();
-    				float scaleFactor = (float)newWidth / (float)imgWidth;
-    				int newHeight = (int) (imgHeight * scaleFactor);
-    				image = Bitmap.createScaledBitmap(image, newWidth, newHeight, true);
-    				ivBackingImage.setImageBitmap(image);
-    				ivBackingImage.setRotation(90);
+    				float width = (float)image.getWidth();
+    				float height =image.getHeight();
+    				ivBackingImage.setVisibility(View.VISIBLE);
+    				ivBackingImage.setLayoutParams(new RelativeLayout.LayoutParams((int)width, (int)height));
     				ivBackingImage.setAlpha(0.5f);
-    			}
+    				ivBackingImage.setImageBitmap(image);
+    			} 
     		}
+    	} else {
+    		ivBackingImage.setVisibility(View.INVISIBLE);
     	}
-    }
+	}
+	
+	
     /**
      * Gets the current Project object we are working on
      * @param name The name of Project
@@ -85,17 +99,20 @@ public class CameraActivity extends Activity implements PictureCallback{
     	return p;
     }
     
-    private int getScreenWidth(){
-    	Display display = ((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
-    	Point outSize = new Point();
-    	display.getSize(outSize);
-    	return outSize.y;
-    }
-    
     private void initCameraPreview(){
     	Log.d(TAG, "initCameraPreview() ....");
     	cameraPreview = (CameraPreview)findViewById(R.id.camera_preview);
     	cameraPreview.init(camera);
+    	
+    }
+    
+    class DecodeImagesRunnable implements Runnable{
+
+		@Override
+		public void run() {
+			android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+			
+		}
     	
     }
     
@@ -131,8 +148,8 @@ public class CameraActivity extends Activity implements PictureCallback{
     
     @Override
     protected void onResume() {
-    	Log.d(TAG, "onResume() ....");
     	super.onResume();
+    	Log.d(TAG, "onResume() ....");
     	if(camera == null){
     		camera = CameraHelper.getCameraInstance();
     	}
@@ -141,8 +158,6 @@ public class CameraActivity extends Activity implements PictureCallback{
 		} catch (IOException e) {
 			Log.d(TAG, "Unable to reconnect to camera");
 		}
-    	setBackingImage();
-    	initCameraPreview();
     }
     
     private void releaseCamera(){

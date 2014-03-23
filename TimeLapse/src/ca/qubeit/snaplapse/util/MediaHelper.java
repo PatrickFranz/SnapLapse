@@ -6,15 +6,18 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.Point;
 import android.os.Environment;
 import android.util.Log;
-
+import android.view.Display;
+import android.view.WindowManager;
 
 public class MediaHelper {
 
@@ -53,39 +56,61 @@ public class MediaHelper {
 		return saved;
 	}
 	
-	public static Bitmap getLatestImageFile(String path){
-		File imgFile = findMostRecentImage(path);
-		getScaledImage(imgFile);
-		return null;
+	public static Bitmap rotateBitmap(Bitmap source, float angle){
+		Matrix matrix = new Matrix();
+		matrix.postRotate(angle);
+		return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);		
 	}
+	
+	public static Bitmap getLatestImageFile(String path, int reqWidth, int reqHeight){
+		File imgFile = findMostRecentImage(path);
+		if(imgFile != null){
+			return getScaledImage(imgFile, reqWidth, reqHeight);
+		} else {
+			return null;
+		}		
+	}
+	
+	 public static Point getScreenSize(Context context){
+	    	Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+	    	Point outSize = new Point();
+	    	display.getSize(outSize);
+	    	return outSize;
+	    }
 
-	public static Bitmap getScaledImage(File imgFile) {
+	public static Bitmap getScaledImage(File imgFile, int reqWidth, int reqHeight) {
 		try{			
-			BitmapFactory.Options opts = new BitmapFactory.Options();
+			final BitmapFactory.Options opts = new BitmapFactory.Options();
 			opts.inJustDecodeBounds = true;
-			if(imgFile != null){
-				BitmapFactory.decodeStream(new FileInputStream(imgFile), null, opts);
-				//Find proper scale value
-				final int REQ_SIZE = 70;
-				int width = opts.outWidth;
-				int height = opts.outHeight;
-				int scale = 1;
-				while(true){
-					if(width / 2 < REQ_SIZE || height / 2 < REQ_SIZE){
-						break;
-					}
-					width  /= 2;
-					height /= 2;
-					scale++;
-				}
-				BitmapFactory.Options opts2 = new BitmapFactory.Options();
-				opts2.inSampleSize = scale;
-				return BitmapFactory.decodeStream(new FileInputStream(imgFile), null, opts2);
+			BitmapFactory.decodeStream(new FileInputStream(imgFile), null, opts);
+			
+			opts.inSampleSize = calculateInSampleSize(opts, reqWidth, reqHeight);
+			if(imgFile != null){								
+				opts.inJustDecodeBounds = false;
+				return rotateBitmap(BitmapFactory.decodeStream(new FileInputStream(imgFile), null, opts), 90);	
+				 
 			}
 		} catch (FileNotFoundException ex){
 			Log.d(TAG, "Problem loading file for scaling...");
 		}
 		return null;
+	}
+	
+	public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight){
+		final int height = options.outHeight;
+		final int width = options.outWidth;		
+		int inSampleSize = 1;
+		
+		if(height > reqHeight || width > reqWidth){
+			final int halfHeight = height;
+			final int halfWidth = width / 2;
+		
+			while ((halfHeight / inSampleSize) > reqHeight
+	                && (halfWidth / inSampleSize) > reqWidth) {
+	            inSampleSize *= 2;
+	        }
+		}		
+		return inSampleSize;
 	}
 
 	private static File findMostRecentImage(String path) {
@@ -94,11 +119,10 @@ public class MediaHelper {
 			File fileDir = new File(path);
 			
 			File[] files = fileDir.listFiles();
-			if(files != null){
-				long newest = files[0].lastModified();
+			if(files != null && files.length > 0){
+				mostRecentFile = files[0];
 				for(File file : files){
-					if(file.lastModified() > newest){
-						newest = file.lastModified();
+					if(file.lastModified() > mostRecentFile.lastModified()){
 						mostRecentFile = file;
 					}
 				}
