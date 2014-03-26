@@ -27,9 +27,7 @@ public class RemoveProjectActivity extends Activity {
 	private ProjectDataSource 	dataSource;
 	private List<Project> 		projects;
 	private AlertDialog.Builder dialogBuilder;
-	private Project selected;
-	
-	
+	private Project selected;	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

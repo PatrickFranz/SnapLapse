@@ -24,7 +24,7 @@ public class SlideShowActivity extends Activity {
 	private ImageView ivSlide;	
 	private Point screenSize;
 	private TextView tvLoading;
-	
+	private ArrayList<Bitmap> imageList;
 	
 	
 	@Override
@@ -34,27 +34,19 @@ public class SlideShowActivity extends Activity {
 		screenSize = MediaHelper.getScreenSize(this);
 		Bundle extras = getIntent().getExtras();
 		Long projectId;
+		imageList = new ArrayList<Bitmap>();
 		ivSlide = (ImageView)findViewById(R.id.iv_slide);
 		tvLoading = (TextView)findViewById(R.id.tv_loading);
 		tvLoading.setVisibility(View.INVISIBLE);
 		
-		if(extras != null){
+		if(extras != null && imageList.size() <= 0){			
 			projectId = extras.getLong("projectId");
-			SlideShowTask show = new SlideShowTask(ivSlide);
-			show.execute(projectId);
-		}
-		
+			new GetImagesTask().execute(projectId);
+		}				
 	}
 	
 	
-	public class SlideShowTask extends AsyncTask<Long, Void, ArrayList<Bitmap>>{
-
-		ImageView iv;
-		
-		public SlideShowTask(ImageView iv){
-			this.iv = iv;
-			iv = null;
-		}
+	class GetImagesTask extends AsyncTask<Long, Bitmap, ArrayList<Bitmap>>{
 
 		@Override
 		protected ArrayList<Bitmap> doInBackground(Long... id) {
@@ -65,29 +57,63 @@ public class SlideShowActivity extends Activity {
 			if(files != null && files.length > 0){
 				for(File aFile : files){
 					Bitmap bitmap = MediaHelper.getScaledImage(aFile, screenSize.y / 2, screenSize.x / 2);
+					publishProgress(bitmap);
 					i.add(bitmap);
 					Log.d(TAG, "image added...size = " + bitmap.getByteCount());
 				}
+				
 			}
 			return i;					
 		}
 		
 		@Override
+		protected void onProgressUpdate(Bitmap... values) {
+			super.onProgressUpdate(values);
+			final Bitmap bitmap = values[0];
+			ivSlide.postDelayed(new Runnable() {
+				
+				@Override
+				public void run() {
+					Log.d(TAG, "Setting ImageView image");
+					ivSlide.setImageBitmap(bitmap);
+					
+				}
+			}, 1000);
+			
+		}
+	
+		
+		@Override
+		protected void onPostExecute(ArrayList<Bitmap> result) {
+			super.onPostExecute(result);
+			imageList = result;
+		}
+	}
+	
+	/*	
+		@Override
 		protected void onPostExecute(ArrayList<Bitmap> result) {
 			if(result != null && result.size() > 0){
-				for(final Bitmap bitmap : result){
-					ivSlide.post(new Runnable() {
-						public void run(){
-							try{
+				imageList = result;
+				if(imageList.size() > 0){
+					int count = 0;
+					while(count < imageList.size()){
+						final Bitmap bitmap = imageList.get(count++);
+						ivSlide.postDelayed(new Runnable(){
+							@Override
+							public void run(){
+								ivSlide.invalidate();
 								ivSlide.setImageBitmap(bitmap);
-								Thread.sleep(500);
-							} catch(InterruptedException ex) {
-								Log.d(TAG, "Thread interrupted unexpectedly.");
+								Log.d(TAG, "Invalidating view");
 							}
-						}
-					});
+						}, 1000);	
+						
+						
+					}
+						
 				}
 			}
+			
 		}
 					
 		
@@ -96,7 +122,8 @@ public class SlideShowActivity extends Activity {
 			// TODO Auto-generated method stub
 			super.onProgressUpdate(values);
 		}
-	}		
+		*/
+	
 	
 	
 	private Project getProject(long id) {		
