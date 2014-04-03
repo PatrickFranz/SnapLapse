@@ -40,7 +40,7 @@
 	        android:layout_gravity="bottom"
 	        android:background="@drawable/submit_button_shape"
 	        android:drawableLeft="@drawable/ico_add"
-	        android:text="@string/btn_open_project" 
+	        android:text="@string/btn_desc_create_project" 
 	        />  
 
 </LinearLayout>

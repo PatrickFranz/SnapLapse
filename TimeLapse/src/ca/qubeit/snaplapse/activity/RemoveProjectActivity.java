@@ -6,28 +6,33 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
+import ca.qubeit.snaplapse.util.MediaHelper;
 import ca.qubeit.snaplapse.view.ProjectArrayAdapter;
 
 public class RemoveProjectActivity extends Activity {
 
-	private static final String TAG = 	"OpenProjectActivity";
+	private static final String TAG = 	"RemoveProjectActivity";
 	private ArrayAdapter<Project> 		projectAdapter;
 	private ListView 	lvProjectList;
 	private Button		 btnRemove;
+	private CheckBox	chkIsDeleteOk;
 	private ProjectDataSource 	dataSource;
 	private List<Project> 		projects;
 	private AlertDialog.Builder dialogBuilder;
-	private Project selected;	
+	private Project selectedProject;
+	private int selectedPosition;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +46,9 @@ public class RemoveProjectActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position,
 					long id) {		
-				selected = projects.get(position);				
-				btnRemove.setText(getString(R.string.btn_delete_project) + " " + selected.getName());				
+				selectedProject = projects.get(position);
+				selectedPosition = position;
+				btnRemove.setText(getString(R.string.btn_delete_project) + " " + selectedProject.getName());				
 			}
 		});
 		btnRemove = (Button)findViewById(R.id.btn_remove_project);
@@ -54,7 +60,7 @@ public class RemoveProjectActivity extends Activity {
 				dlg.show();
 			}				
 		});
-	
+		
 		//Populate projects
 		getProjects();
 		
@@ -65,14 +71,25 @@ public class RemoveProjectActivity extends Activity {
 	}
 	
 	private AlertDialog buildDialog(){
+		//Get Dialog layout
+		View dlgLayout = View.inflate(this, R.layout.dlg_delete_project, null);
+		chkIsDeleteOk = (CheckBox)dlgLayout.findViewById(R.id.isDeleteOk);
+		chkIsDeleteOk.setText(R.string.dlg_delete_images);
+		
 		dialogBuilder = new AlertDialog.Builder(this);
-		dialogBuilder.setTitle(R.string.dlg_remove_title)
-		      .setMessage(R.string.dlg_warning_msg)
-		      .setCancelable(true)
-		      .setPositiveButton(R.string.txt_yes, new DialogInterface.OnClickListener() {
+		dialogBuilder.setView(dlgLayout)
+			.setTitle(R.string.dlg_remove_title)
+			.setMessage(R.string.dlg_warning_msg)
+			.setCancelable(true)
+			.setPositiveButton(R.string.txt_yes, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
+					projects.remove(selectedPosition);
 					deleteProjectFromDatabase();
+					if(chkIsDeleteOk.isChecked()){
+						Log.d(TAG, "Deleting project folder...");
+						MediaHelper.removeProjectFiles(selectedProject.getName());
+					}
 				}				
 		      })
 		      .setNegativeButton(R.string.txt_no, new DialogInterface.OnClickListener(){
@@ -86,9 +103,10 @@ public class RemoveProjectActivity extends Activity {
 	}
 	
 	private void deleteProjectFromDatabase() {
+		Log.d(TAG, "Project " + selectedProject.getName() + " removed from database");
 		ProjectDataSource source = new ProjectDataSource(this);
 		source.open();
-		source.delete(selected.get_id());
+		source.delete(selectedProject.get_id());
 		projectAdapter.clear();		
 		projectAdapter.addAll(source.getAllProjects());
 		source.close();						

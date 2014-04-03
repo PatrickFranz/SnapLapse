@@ -22,10 +22,11 @@ import android.view.WindowManager;
 public class MediaHelper {
 
 	private final static String TAG = "MediaHelper";
+	private final static String APP_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + "/SnapLapse/";
 	public static File getOutputImageFile(String projectName){
 		File mediaFile = null;
 		if(isMediaMounted()){
-		   File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "SnapLapse/" + projectName);
+		   File mediaStorageDir = new File(APP_DIR + projectName);
 	    // Create the storage directory if it does not exist
 		    if (! mediaStorageDir.exists()){
 		        if (! mediaStorageDir.mkdirs()){
@@ -78,7 +79,7 @@ public class MediaHelper {
 	    	return outSize;
 	    }
 
-	public static Bitmap getScaledImage(File imgFile, int reqWidth, int reqHeight) {
+	 public static Bitmap getScaledImage(File imgFile, int reqWidth, int reqHeight) {
 		try{			
 			final BitmapFactory.Options opts = new BitmapFactory.Options();
 			opts.inJustDecodeBounds = true;
@@ -141,6 +142,24 @@ public class MediaHelper {
 			}			
 		}
 		return files;
+	}
+	
+	public static boolean removeProjectFiles(String projectName){
+		 File projectDir = new File(APP_DIR +  projectName);
+		 if(projectDir.exists()){
+			 File[] images = getProjectFilenames(APP_DIR + projectName);
+			 if(images != null){
+				 for(File f : images){
+					 f.delete();
+					 Log.d(TAG, "File deleted...");
+				 }	
+			 }
+		 }
+		 Log.d(TAG, "Folder deleted...");
+		 return projectDir.delete();
+		 
+		
+		
 	}
 	
 	private static boolean isMediaMounted(){

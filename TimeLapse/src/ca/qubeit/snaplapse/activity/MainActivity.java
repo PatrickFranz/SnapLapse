@@ -1,5 +1,7 @@
 package ca.qubeit.snaplapse.activity;
 
+import com.parse.ParseAnalytics;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +22,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        //Let Parse know we've opened the App
+        ParseAnalytics.trackAppOpened(getIntent());
+        
         //Get View references
         btnCreate = (LinearLayout)findViewById(R.id.btn_create);
         btnOpen = 	(LinearLayout)findViewById(R.id.btn_open);

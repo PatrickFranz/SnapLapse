@@ -41,8 +41,9 @@
     <string name="cd_project_preview">Project preview</string>
     <string name="btn_create_new_project">Create a new Project</string>
     <string name="dlg_remove_title">Remove this project?</string>
-    <string name="dlg_warning_msg">This will delete the project.\nThe images will NOT be deleted.</string>
+    <string name="dlg_warning_msg">This will delete the project.</string>
     <string name="dlg_confirmation">Are you sure?</string>
+    <string name="dlg_delete_images">Delete images?</string>
 
      <!-- SlideShow Activity strings -->
     <string name="txt_loading">Preparing Slideshow #8230;.</string>

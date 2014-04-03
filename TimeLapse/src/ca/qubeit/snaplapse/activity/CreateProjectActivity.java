@@ -14,6 +14,8 @@ import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
 
+import com.parse.ParseObject;
+
 public class CreateProjectActivity extends Activity {
 
 	private final String TAG = "CreateProjectActivity";
@@ -44,8 +46,8 @@ public class CreateProjectActivity extends Activity {
 				String name = "SnapLapse Project";
 				String desc = "";
 				int length 	= 1;
-				//Validate input
 				
+				//Validate input
 				if(projectName.getText().length() > 1){
 					name = projectName.getText().toString();
 				}
@@ -73,11 +75,22 @@ public class CreateProjectActivity extends Activity {
 								, Toast.LENGTH_SHORT).show();
 					}
 					dataSource.close();
+					
+					//Parse tracks total number of projects created. Lets add 1 to that now.
+					sendToParse(name, desc, intervalInMillis, intervalUnit.getSelectedItem().toString());
 				}
 				finish();
 			}
 
-
+			private void sendToParse(String name, String desc, long intervalInMillis, String intervalUnit) {
+				ParseObject newProject = new ParseObject("Project");
+				newProject.put("projectName", name);
+				newProject.put("description", desc);
+				newProject.put("IntervalInMillis"	, intervalInMillis);
+				newProject.put("IntervalUnit", intervalUnit);
+				newProject.saveInBackground();
+			}
+			
 		});		
 	}
 	
