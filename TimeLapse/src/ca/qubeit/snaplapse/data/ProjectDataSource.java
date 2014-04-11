@@ -36,6 +36,7 @@ public class ProjectDataSource {
 		content.put("description", project.getDescription());
 		content.put("created_date", project.getCreatedDateInMillis());
 		content.put("notify_interval", project.getNotificationInterval());
+		content.put("notify_id", project.getNotifyId());
 		content.put("image_path", project.getImagePath());
 		
 		return db.insert("projects", null, content);				
@@ -59,6 +60,7 @@ public class ProjectDataSource {
 				p.setDescription(c.getString(c.getColumnIndex("description")));
 				p.setCreatedDate(c.getLong(c.getColumnIndex("created_date")));
 				p.setNotificationInterval(c.getLong(c.getColumnIndex("notify_interval")));
+				p.setNotifyId(c.getInt(c.getColumnIndex("notify_id")));
 				p.setImagePath(c.getString(c.getColumnIndex("image_path")));
 				projects.add(p);
 			}
@@ -78,6 +80,7 @@ public class ProjectDataSource {
 			project.setDescription(c.getString(c.getColumnIndex("description")));
 			project.setCreatedDate(c.getLong(c.getColumnIndex("created_date")));
 			project.setNotificationInterval(c.getLong(c.getColumnIndex("notify_interval")));
+			project.setNotifyId(c.getInt(c.getColumnIndex("notify_id")));
 			project.setImagePath(c.getString(c.getColumnIndex("image_path")));
 		}		
 		return project;

@@ -21,16 +21,18 @@ public class Project {
 	private String description;
 	private long createdDateInMillis;
 	private long notificationInterval;
+	private int notifyId;
 	private String imagePath;
 	
 	public Project() {
 		
 	}
 
-	public Project(String name, String description, long notificationInterval) {
+	public Project(String name, String description, long notificationInterval, int notifyId) {
 		this.name = name;
 		this.description = description;
 		this.notificationInterval = notificationInterval;
+		setNotifyId(notifyId);
 		setCreatedDate(System.currentTimeMillis());
 		setImagePath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/SnapLapse/" + name);
 	}
@@ -78,6 +80,14 @@ public class Project {
 
 	public void setNotificationInterval(long notificationInterval) {
 		this.notificationInterval = notificationInterval;
+	}
+
+	public int getNotifyId() {
+		return notifyId;
+	}
+
+	public void setNotifyId(int notifyId) {
+		this.notifyId = notifyId;
 	}
 
 	public String getImagePath() {

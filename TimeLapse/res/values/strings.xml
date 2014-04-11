@@ -11,7 +11,7 @@
     <!-- Activity strings -->
     <string name="title_activity_take_picture">Take a Picture</string>
     <string name="title_activity_create_project">Create a Project</string>
-    <string name="title_activity_open_project">Open a Project</string>
+    <string name="title_activity_open_project">Work with a Project</string>
     <string name="title_activity_camera">Camera</string>
     <string name="title_activity_remove">Remove Project</string>
     <string name="title_activity_view_project">View a Project</string>
@@ -20,11 +20,11 @@
     <!-- Main menu strings -->
     <string name="txt_main_menu">Main Menu</string>
     <string name="btn_create_project">Create</string>
-    <string name="btn_open_project">Open</string>
+    <string name="btn_open_project">Project</string>
     <string name="btn_delete_project">Remove</string>
     <string name="btn_view_project">View</string>
     <string name="btn_desc_create_project">Start a new project</string>
-    <string name="btn_desc_open_project">Continue your project</string>
+    <string name="btn_desc_open_project">Work with your project</string>
     <string name="btn_desc_delete_project">Delete a project</string>
     <string name="btn_desc_view_project">Watch a project slideshow</string>
 
@@ -59,10 +59,11 @@
 
     <!-- String array resources -->
     <string-array name="time_interval_reminder">
+        <item>minutes</item>
+        <item>hours</item>
         <item>days</item>
-        <item>month</item>
-        <item>week</item>
-        <item>year</item>
+        <item>months</item>
+        <item>weeks</item>
     </string-array>
 
    

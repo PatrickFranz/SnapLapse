@@ -19,6 +19,7 @@ import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
 import ca.qubeit.snaplapse.util.MediaHelper;
+import ca.qubeit.snaplapse.util.NotificationHelper;
 import ca.qubeit.snaplapse.view.ProjectArrayAdapter;
 
 public class RemoveProjectActivity extends Activity {
@@ -32,12 +33,14 @@ public class RemoveProjectActivity extends Activity {
 	private List<Project> 		projects;
 	private AlertDialog.Builder dialogBuilder;
 	private Project selectedProject;
+	private ProjectDataSource source;
 	private int selectedPosition;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_remove_project);
+		source = new ProjectDataSource(this);
 		
 		//Get UI References
 		lvProjectList = (ListView)findViewById(R.id.lv_remove_projects);
@@ -66,8 +69,7 @@ public class RemoveProjectActivity extends Activity {
 		
 		//SetAdapter for list
 		projectAdapter = new ProjectArrayAdapter(this, projects);
-		lvProjectList.setAdapter(projectAdapter);
-		
+		lvProjectList.setAdapter(projectAdapter);		
 	}
 	
 	private AlertDialog buildDialog(){
@@ -84,8 +86,10 @@ public class RemoveProjectActivity extends Activity {
 			.setPositiveButton(R.string.txt_yes, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
+					final int notificationId = selectedProject.getNotifyId();
 					projects.remove(selectedPosition);
 					deleteProjectFromDatabase();
+					NotificationHelper.cancelNotification(getApplicationContext(), notificationId);
 					if(chkIsDeleteOk.isChecked()){
 						Log.d(TAG, "Deleting project folder...");
 						MediaHelper.removeProjectFiles(selectedProject.getName());
@@ -104,7 +108,6 @@ public class RemoveProjectActivity extends Activity {
 	
 	private void deleteProjectFromDatabase() {
 		Log.d(TAG, "Project " + selectedProject.getName() + " removed from database");
-		ProjectDataSource source = new ProjectDataSource(this);
 		source.open();
 		source.delete(selectedProject.get_id());
 		projectAdapter.clear();		
@@ -113,7 +116,6 @@ public class RemoveProjectActivity extends Activity {
 		projectAdapter.notifyDataSetChanged();
 		btnRemove.setText(R.string.btn_delete_project);
 	}
-	
 	
 	private void getProjects() {
 		if(dataSource == null){

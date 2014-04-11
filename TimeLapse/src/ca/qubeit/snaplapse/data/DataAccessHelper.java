@@ -8,13 +8,13 @@ import android.util.Log;
 
 public class DataAccessHelper extends SQLiteOpenHelper {
 
-	public static final String[] DB_COLUMNS = {"_id", "name", "description", "created_date", "notify_interval", "image_path" };
+	public static final String[] DB_COLUMNS = {"_id", "name", "description", "created_date", "notify_interval", "notify_id", "image_path" };
 	public static final String DB_TABLE = "projects";
 	public static final String DB_COLUMN_ID = BaseColumns._ID;
 	
 	private static final String TAG = "DataAccessHelper";
 	private static final String DB_NAME = "snap_lapse.db";
-	private static final int DB_VERSION = 2;	
+	private static final int DB_VERSION = 3;	
 	
 	private static final String DB_CREATE_TABLE = 
 			"CREATE TABLE " + DB_TABLE + "("
@@ -23,6 +23,7 @@ public class DataAccessHelper extends SQLiteOpenHelper {
 					+ "description text, "
 					+ "created_date integer,"
 					+ "notify_interval integer, "
+					+ "notify_id integer, "
 					+ "image_path text);";
 	
 	public DataAccessHelper(Context context) {

@@ -1,6 +1,11 @@
 package ca.qubeit.snaplapse.activity;
 
+import java.util.Calendar;
+
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,32 +18,36 @@ import android.widget.Toast;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
+import ca.qubeit.snaplapse.util.NotificationHelper;
+import ca.qubeit.snaplapse.util.NotificationReceiver;
 
 import com.parse.ParseObject;
 
 public class CreateProjectActivity extends Activity {
 
 	private final String TAG = "CreateProjectActivity";
-	private EditText projectName;
-	private EditText projectDescription;
-	private EditText intervalNumeric;
-	private Spinner  intervalUnit;
-	private Button	 submit;
-	private ProjectDataSource dataSource;
+	private EditText 			projectName;
+	private EditText			projectDescription;
+	private EditText 			intervalNumeric;
+	private Spinner  			intervalUnit;
+	private Button	 			submit;
+	private ProjectDataSource 	dataSource;
+	private int 				notifyId; 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_project);
-		dataSource = new ProjectDataSource(this);
-		
+		dataSource 	= new ProjectDataSource(this);
+		notifyId 	= (int) System.currentTimeMillis();		
 		
 		//Get our references to UI views
-		projectName = (EditText)findViewById(R.id.et_project_name);
-		projectDescription = (EditText)findViewById(R.id.et_project_description);
-		intervalNumeric = (EditText)findViewById(R.id.et_interval);
-		intervalUnit = (Spinner)findViewById(R.id.sp_interval);
-		submit = (Button)findViewById(R.id.btn_create_project_submit);
+		projectName 		= (EditText)findViewById(R.id.et_project_name);
+		projectDescription 	= (EditText)findViewById(R.id.et_project_description);
+		intervalNumeric 	= (EditText)findViewById(R.id.et_interval);
+		intervalUnit 		= (Spinner)findViewById(R.id.sp_interval);
+		submit 				= (Button)findViewById(R.id.btn_create_project_submit);
 		
 		submit.setOnClickListener(new OnClickListener() {
 			@Override
@@ -61,7 +70,7 @@ public class CreateProjectActivity extends Activity {
 				long intervalInMillis = getLongInterval(length, intervalUnit.getSelectedItem().toString());
 				
 				//Create project and add it to the database.
-				Project project = new Project(name, desc, intervalInMillis);
+				Project project = new Project(name, desc, intervalInMillis, notifyId);
 				if(project != null){
 					dataSource.open();
 					Log.i(TAG, "Create new project titled: " + project.getName());
@@ -76,32 +85,40 @@ public class CreateProjectActivity extends Activity {
 					}
 					dataSource.close();
 					
+					//Schedule a notification
+					NotificationHelper.createScheduledNotification(getApplicationContext(), notifyId, intervalInMillis, name);
+					
 					//Parse tracks total number of projects created. Lets add 1 to that now.
 					sendToParse(name, desc, intervalInMillis, intervalUnit.getSelectedItem().toString());
 				}
 				finish();
-			}
-
-			private void sendToParse(String name, String desc, long intervalInMillis, String intervalUnit) {
-				ParseObject newProject = new ParseObject("Project");
-				newProject.put("projectName", name);
-				newProject.put("description", desc);
-				newProject.put("IntervalInMillis"	, intervalInMillis);
-				newProject.put("IntervalUnit", intervalUnit);
-				newProject.saveInBackground();
-			}
-			
+			}			
 		});		
 	}
 	
+	private void sendToParse(String name, String desc, long intervalInMillis, String intervalUnit) {
+		ParseObject newProject = new ParseObject("Project");
+		newProject.put("projectName", name);
+		newProject.put("description", desc);
+		newProject.put("IntervalInMillis"	, intervalInMillis);
+		newProject.put("IntervalUnit", intervalUnit);
+		newProject.saveInBackground();
+	}
+	
 	private long getLongInterval(int length, String unitType){
-		if(unitType.equals("day")){
+		if(unitType.equals("minutes")){
+			return length * 60 * 1000;
+		}
+		else if(unitType.equals("hours")){
+			return length * 60 * 60 * 1000;
+		} 
+		else if(unitType.equals("days")){
 			return length * 24 * 60 * 60 * 1000;
 		} 
-		else if(unitType.equals("week")){
+		else if(unitType.equals("weeks")){
 			return length * 7 * 24 * 60 * 60 * 1000;
 		}		
-		else if(unitType.equals("month")){
+		else if(unitType.equals("months")){
 			return length * 30 * 24 * 60 * 60 * 1000;
 		} 
 		else {
