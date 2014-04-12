@@ -4,14 +4,11 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -42,23 +39,10 @@ public class OpenProjectActivity extends Activity {
 			public void onItemClick(AdapterView<?> adapter, View view, int position,
 					long id) {
 				Log.d(TAG, "ProjectList onItemClick...");
-				view.setBackgroundColor(Color.LTGRAY);
+				view.setBackgroundColor(getResources().getColor(R.color.snaplapse_blue));
 				Intent takePicture = new Intent(getBaseContext(), CameraActivity.class);
 				takePicture.putExtra("projectName", projects.get(position).getName());
-				view.setOnTouchListener(new OnTouchListener() {
-					@Override
-					public boolean onTouch(View v, MotionEvent event) {
-						switch(event.getAction()){
-							case MotionEvent.ACTION_DOWN:
-								v.setBackgroundColor(Color.LTGRAY);
-								break;
-							case MotionEvent.ACTION_UP:
-								v.setBackgroundColor(Color.WHITE);
-								break;
-						}
-						return true;
-					}
-				});
+				
 				startActivity(takePicture);		
 			}
 		});		
