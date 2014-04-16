@@ -19,11 +19,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
+import ca.qubeit.snaplapse.data.ProjectHelper;
 
 public class ProjectArrayAdapter  extends ArrayAdapter<Project>{
 
 	private Context ctx;
 	private List<Project> projects;
+	private int selectedProjectPosition;
+	private final int DELETE 	= 0;
+	private final int SETTINGS  = 1;
 	
 	
 	public ProjectArrayAdapter(Context context, List<Project> projects) {
@@ -34,12 +38,12 @@ public class ProjectArrayAdapter  extends ArrayAdapter<Project>{
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		
+		selectedProjectPosition = position;
 		LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		final View view = inflater.inflate(R.layout.project_listview_row, null);
 		
-		Project project = projects.get(position);
+		Project project = projects.get(selectedProjectPosition);
 		
 		TextView tvProjectName = (TextView)view.findViewById(R.id.tv_project_name);
 		TextView tvProjectDescription = (TextView) view.findViewById(R.id.tv_project_description);
@@ -76,12 +80,29 @@ public class ProjectArrayAdapter  extends ArrayAdapter<Project>{
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				switch(position){
-				case 0:
-					
-				}
+					int puPosition, long id) {
+				switch(puPosition){
 				
+				case DELETE:
+					projects.remove(selectedProjectPosition);
+					ProjectHelper pHelper = new ProjectHelper(view.getContext());
+					Project selectedProject = projects.get(puPosition);
+					if(pHelper.deleteProject(selectedProject)){
+						//Project was deleted in the Dialog
+						
+					}
+					Toast.makeText(view.getContext()
+									, "Delete " + projects.get(selectedProjectPosition).getName()
+									, Toast.LENGTH_SHORT).show();
+					break;
+				
+				case SETTINGS:
+					Toast.makeText(view.getContext()
+							, "Setting for " + projects.get(selectedProjectPosition).getName()
+							, Toast.LENGTH_SHORT).show();
+					
+					break;					
+				}				
 			}
 		});
 		

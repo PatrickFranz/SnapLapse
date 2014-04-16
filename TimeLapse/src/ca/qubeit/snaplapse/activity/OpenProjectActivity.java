@@ -73,6 +73,7 @@ public class OpenProjectActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Log.d(TAG, "onResume...");
 		getProjects();
 		projectAdapter.clear();
 		projectAdapter.addAll(projects);
