@@ -1,13 +1,10 @@
 package ca.qubeit.snaplapse.data;
 
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.util.MediaHelper;
@@ -17,7 +14,6 @@ public class ProjectHelper {
 	private static final String TAG = 	"ProjectHelper";
 	private Context 		context;
 	private Project  project;
-	private int selectedPosition;
 	private boolean isDeleted;
 	
 	public ProjectHelper(Context context){
@@ -37,6 +33,7 @@ public class ProjectHelper {
 		final CheckBox chkIsDeleteOk = (CheckBox)dlgLayout.findViewById(R.id.isDeleteOk);
 		chkIsDeleteOk.setText(R.string.dlg_delete_images);
 		
+		//Build the dialog
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
 		dialogBuilder.setView(dlgLayout)
 			.setTitle(R.string.dlg_remove_title)

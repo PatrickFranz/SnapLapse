@@ -1,7 +1,5 @@
 package ca.qubeit.snaplapse.activity;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,21 +9,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import ca.qubeit.snaplapse.R;
-import ca.qubeit.snaplapse.data.Project;
-import ca.qubeit.snaplapse.data.ProjectDataSource;
+import ca.qubeit.snaplapse.data.ProjectList;
 import ca.qubeit.snaplapse.view.ProjectArrayAdapter;
 
 public class OpenProjectActivity extends Activity {
 	
 	private static final String TAG = "OpenProjectActivity";
-	private ArrayAdapter<Project> projectAdapter;
+	private ProjectArrayAdapter projectAdapter;
 	private ListView lvProjectList;
 	private Button newProject;	
-	private List<Project> projects;
+	private ProjectList projects;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,26 +53,18 @@ public class OpenProjectActivity extends Activity {
 		});		
 		
 		//Get Data
-		getProjects();
+		projects = new ProjectList(this);
 		projectAdapter = new ProjectArrayAdapter(this, projects);
 		lvProjectList.setAdapter(projectAdapter);
 		
-	}
-
-	private void getProjects() {		
-		ProjectDataSource dataSource = new ProjectDataSource(this);
-		dataSource.open();
-		projects = dataSource.getAllProjects();
-		dataSource.close();
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		Log.d(TAG, "onResume...");
-		getProjects();
 		projectAdapter.clear();
-		projectAdapter.addAll(projects);
+		projects.refresh();
 		projectAdapter.notifyDataSetChanged();
 		
 	}

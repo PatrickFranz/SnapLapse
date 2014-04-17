@@ -1,7 +1,5 @@
 package ca.qubeit.snaplapse.view;
 
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -20,17 +18,18 @@ import android.widget.Toast;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectHelper;
+import ca.qubeit.snaplapse.data.ProjectList;
 
 public class ProjectArrayAdapter  extends ArrayAdapter<Project>{
 
 	private Context ctx;
-	private List<Project> projects;
+	private ProjectList projects;
 	private int selectedProjectPosition;
 	private final int DELETE 	= 0;
 	private final int SETTINGS  = 1;
 	
 	
-	public ProjectArrayAdapter(Context context, List<Project> projects) {
+	public ProjectArrayAdapter(Context context, ProjectList projects) {
 		super(context, android.R.id.content, projects);
 		this.ctx = context;
 		this.projects = projects;
@@ -54,9 +53,6 @@ public class ProjectArrayAdapter  extends ArrayAdapter<Project>{
 			public void onClick(View v) {				
 				PopupWindow popup = getPopupWindow(v);
 				popup.showAsDropDown(v);
-				
-				
-				
 			}
 		});
 		
@@ -67,7 +63,7 @@ public class ProjectArrayAdapter  extends ArrayAdapter<Project>{
 	}
 	
 	private PopupWindow getPopupWindow(View view){
-		PopupWindow puw = new PopupWindow(view.getContext());
+		final PopupWindow puw = new PopupWindow(view.getContext());
 		
 		ListView lvOptions = new ListView(view.getContext());
 		
@@ -84,24 +80,28 @@ public class ProjectArrayAdapter  extends ArrayAdapter<Project>{
 				switch(puPosition){
 				
 				case DELETE:
-					projects.remove(selectedProjectPosition);
+					
 					ProjectHelper pHelper = new ProjectHelper(view.getContext());
 					Project selectedProject = projects.get(puPosition);
+					projects.remove(selectedProjectPosition);
 					if(pHelper.deleteProject(selectedProject)){
-						//Project was deleted in the Dialog
+						projects.refresh();
 						
 					}
-					Toast.makeText(view.getContext()
-									, "Delete " + projects.get(selectedProjectPosition).getName()
-									, Toast.LENGTH_SHORT).show();
+					puw.dismiss();
 					break;
 				
 				case SETTINGS:
 					Toast.makeText(view.getContext()
 							, "Setting for " + projects.get(selectedProjectPosition).getName()
 							, Toast.LENGTH_SHORT).show();
+					puw.dismiss();
+					break;
+				
+				default:
+					puw.dismiss();
+					break;
 					
-					break;					
 				}				
 			}
 		});
@@ -111,7 +111,6 @@ public class ProjectArrayAdapter  extends ArrayAdapter<Project>{
 		puw.setWidth(400);
 		puw.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 		return puw;
-		
 	}
 	
 	
