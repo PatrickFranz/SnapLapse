@@ -1,29 +1,25 @@
 package ca.qubeit.snaplapse.data;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.Context;
 
-class ProjectList extends ArrayList<Project> {
+public class ProjectList extends ArrayList<Project> {
 	
 	private static final long serialVersionUID = 1L;
-	private Context context;
-	private List<Project> projects;
+	private ProjectDataSource src;
 	
 	public ProjectList(Context context){
-		this.context = context;
-		projects = new ArrayList<Project>();
-		populateList();
+		src = new ProjectDataSource(context);
+		refresh();
 	}
 	
-	private void populateList(){
-		ProjectDataSource src = new ProjectDataSource(context);
+	public void refresh(){
+		this.clear();
 		src.open();
-		projects = src.getAllProjects();
+		this.addAll(src.getAllProjects());
 		src.close();
 	}
-	
   
 	
 

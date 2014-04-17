@@ -1,40 +1,33 @@
-package ca.qubeit.snaplapse.data;
+package ca.qubeit.snaplapse.view;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import ca.qubeit.snaplapse.R;
+import ca.qubeit.snaplapse.data.Project;
+import ca.qubeit.snaplapse.data.ProjectDataSource;
 import ca.qubeit.snaplapse.util.MediaHelper;
 import ca.qubeit.snaplapse.util.NotificationHelper;
 
-public class ProjectHelper {	
-	private static final String TAG = 	"ProjectHelper";
-	private Context 		context;
-	private Project  project;
-	private boolean isDeleted;
+public class DeleteProjectDialogFragment extends DialogFragment {
+	private static final String TAG = 	"DeleteProjectDialogFragment";
+	private boolean isDeleted = false;
+	private Project project;
+	private Context context;
 	
-	public ProjectHelper(Context context){
-		this.context = context;
-		isDeleted = false;
-	}
-
-	public boolean deleteProject(Project project){
-		this.project = project;
-		buildDeleteDialog().show();
-		return isDeleted;
-	}
-	
-	private AlertDialog buildDeleteDialog(){
-		//Get Dialog layout
-		View dlgLayout = View.inflate(context, R.layout.dlg_delete_project, null);
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		//Create the view from resource
+		this.context = getActivity();
+		View dlgLayout = View.inflate(getActivity(), R.layout.dlg_delete_project, null);
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
 		final CheckBox chkIsDeleteOk = (CheckBox)dlgLayout.findViewById(R.id.isDeleteOk);
-		chkIsDeleteOk.setText(R.string.dlg_delete_images);
-		
-		//Build the dialog
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
 		dialogBuilder.setView(dlgLayout)
 			.setTitle(R.string.dlg_remove_title)
 			.setMessage(R.string.dlg_warning_msg)
@@ -47,7 +40,6 @@ public class ProjectHelper {
 					NotificationHelper.cancelNotification(context, notificationId);
 					deleteProjectFromDatabase();
 					if(chkIsDeleteOk.isChecked()){
-						Log.d(TAG, "Deleting project folder...");
 						MediaHelper.removeProjectFiles(project.getName());
 					}
 				}				

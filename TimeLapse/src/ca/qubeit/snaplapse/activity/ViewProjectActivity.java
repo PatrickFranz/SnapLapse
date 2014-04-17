@@ -1,8 +1,5 @@
 package ca.qubeit.snaplapse.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,7 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
-import ca.qubeit.snaplapse.data.ProjectDataSource;
+import ca.qubeit.snaplapse.data.ProjectList;
 import ca.qubeit.snaplapse.view.ProjectArrayAdapter;
 
 public class ViewProjectActivity extends Activity {
@@ -27,15 +24,13 @@ public class ViewProjectActivity extends Activity {
 	private ListView lvProjects;
 	private Button btnViewShow;
 	private ArrayAdapter<Project> adapter;
-	private List<Project> projects;
+	private ProjectList projects;
 	private long selected;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_project);
-		projects = new ArrayList<Project>();
-		
-		
+		projects = new ProjectList(this);		
 	
 		//Get UI Refs
 		lvProjects = (ListView)findViewById(R.id.lv_view_projects);
@@ -64,18 +59,9 @@ public class ViewProjectActivity extends Activity {
 				startActivity(showSlides);				
 			}
 		});
-		getProjects();
 		adapter = new ProjectArrayAdapter(this, projects);
 		lvProjects.setAdapter(adapter);
-	}
-	
-	private void getProjects() {		
-		ProjectDataSource dataSource = new ProjectDataSource(this);
-		dataSource.open();
-		projects = dataSource.getAllProjects();
-		dataSource.close();
-	}
-	
+	}	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

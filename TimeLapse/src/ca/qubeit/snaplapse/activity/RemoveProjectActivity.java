@@ -1,7 +1,5 @@
 package ca.qubeit.snaplapse.activity;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,6 +16,7 @@ import android.widget.ListView;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
+import ca.qubeit.snaplapse.data.ProjectList;
 import ca.qubeit.snaplapse.util.MediaHelper;
 import ca.qubeit.snaplapse.util.NotificationHelper;
 import ca.qubeit.snaplapse.view.ProjectArrayAdapter;
@@ -29,8 +28,7 @@ public class RemoveProjectActivity extends Activity {
 	private ListView 	lvProjectList;
 	private Button		 btnRemove;
 	private CheckBox	chkIsDeleteOk;
-	private ProjectDataSource 	dataSource;
-	private List<Project> 		projects;
+	private ProjectList 		projects;
 	private AlertDialog.Builder dialogBuilder;
 	private Project selectedProject;
 	private ProjectDataSource source;
@@ -65,8 +63,7 @@ public class RemoveProjectActivity extends Activity {
 		});
 		
 		//Populate projects
-		getProjects();
-		
+		projects = new ProjectList(this);
 		//SetAdapter for list
 		projectAdapter = new ProjectArrayAdapter(this, projects);
 		lvProjectList.setAdapter(projectAdapter);		
@@ -117,19 +114,11 @@ public class RemoveProjectActivity extends Activity {
 		btnRemove.setText(R.string.btn_delete_project);
 	}
 	
-	private void getProjects() {
-		if(dataSource == null){
-			dataSource = new ProjectDataSource(this);
-		}
-		dataSource.open();
-		projects = dataSource.getAllProjects();
-		dataSource.close();
-	}
+	
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		getProjects();
 		projectAdapter.clear();
 		projectAdapter.addAll(projects);
 		projectAdapter.notifyDataSetChanged();		
