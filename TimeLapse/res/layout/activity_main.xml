@@ -6,16 +6,6 @@
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"
-        android:text="@string/txt_main_menu"
-        android:textColor="#f1f1f1"
-        android:textAppearance="?android:attr/textAppearanceLarge" 
-        />
     <!-- Create project button -->
     <LinearLayout 
         android:id="@+id/btn_create"
@@ -43,7 +33,7 @@
     </LinearLayout>
 	<!-- End create project button -->
 
-<!-- Open project button -->
+<!-- Work on project button -->
     <LinearLayout 
         android:id="@+id/btn_open"
         style="@style/LinearLayoutButton_Style"
@@ -72,38 +62,6 @@
         </LinearLayout>
     </LinearLayout>
 	<!-- End open project button -->
-	
-	<!-- Delete project button -->
-    <LinearLayout 
-        android:id="@+id/btn_remove"
-        style="@style/LinearLayoutButton_Style"
-        >
-        <ImageView
-            style="@style/ImageViewButton_Style"     
-            android:contentDescription="@string/btn_delete_project"
-            android:src="@drawable/ico_delete"
-                   
-            />        
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:orientation="vertical"
-           >
-	        <TextView
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            style="@style/ButtonHeading_Style"
-	            android:text="@string/btn_delete_project"
-	            />
-	         <TextView
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"	         
-	            android:text="@string/btn_desc_delete_project"
-	            />
-        </LinearLayout>
-    </LinearLayout>
-	<!-- End delete project button -->
-	
 	<!-- View project button -->
     <LinearLayout 
         android:id="@+id/btn_view"
@@ -133,8 +91,20 @@
 	            android:text="@string/btn_desc_view_project"
 	            />
         </LinearLayout>
+
     </LinearLayout>
 	<!-- End view project button -->
+    <!-- Begin Ad space -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        style="@style/LinearLayoutButton_Style"
+
+
+
+        >
+    </LinearLayout>
 
 
   

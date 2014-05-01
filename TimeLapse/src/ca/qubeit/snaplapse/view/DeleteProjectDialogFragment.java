@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.location.GpsStatus;
+import android.net.sip.SipSession;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -18,9 +20,17 @@ import ca.qubeit.snaplapse.util.NotificationHelper;
 public class DeleteProjectDialogFragment extends DialogFragment {
 	private static final String TAG = 	"DeleteProjectDialogFragment";
 	private boolean isDeleted = false;
+    private Listener listener;
 	private Project project;
 	private Context context;
-	
+
+    public void setListener(Listener listener){
+        this.listener = listener;
+    }
+    static interface Listener {
+        void returnData(boolean isDeleted);
+    }
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		//Create the view from resource
@@ -42,6 +52,9 @@ public class DeleteProjectDialogFragment extends DialogFragment {
 					if(chkIsDeleteOk.isChecked()){
 						MediaHelper.removeProjectFiles(project.getName());
 					}
+                    if(listener != null){
+                        listener.returnData(isDeleted);
+                    }
 				}				
 		      })
 		      .setNegativeButton(R.string.txt_no, new DialogInterface.OnClickListener(){

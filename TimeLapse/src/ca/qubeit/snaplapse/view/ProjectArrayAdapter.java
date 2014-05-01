@@ -1,5 +1,7 @@
 package ca.qubeit.snaplapse.view;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -15,12 +17,13 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectHelper;
 import ca.qubeit.snaplapse.data.ProjectList;
 
-public class ProjectArrayAdapter  extends ArrayAdapter<Project>{
+public class ProjectArrayAdapter extends ArrayAdapter<Project>{
 
 	private Context ctx;
 	private ProjectList projects;
@@ -28,41 +31,51 @@ public class ProjectArrayAdapter  extends ArrayAdapter<Project>{
 	private final int DELETE 	= 0;
 	private final int SETTINGS  = 1;
 	
-	
+
 	public ProjectArrayAdapter(Context context, ProjectList projects) {
 		super(context, android.R.id.content, projects);
 		this.ctx = context;
 		this.projects = projects;
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		selectedProjectPosition = position;
-		LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
-		final View view = inflater.inflate(R.layout.project_listview_row, null);
-		
-		Project project = projects.get(selectedProjectPosition);
-		
-		TextView tvProjectName = (TextView)view.findViewById(R.id.tv_project_name);
-		TextView tvProjectDescription = (TextView) view.findViewById(R.id.tv_project_description);
-		ImageView ivSettings = (ImageView) view.findViewById(R.id.iv_settings);
-		ivSettings.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {				
-				PopupWindow popup = getPopupWindow(v);
-				popup.showAsDropDown(v);
-			}
-		});
-		
-		tvProjectName.setText(project.getName());
-		tvProjectDescription.setText(project.getDescription());
-		
-		return view;
+        View v = convertView;
+
+        //Reuse views
+        if(v == null) {
+
+            LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = inflater.inflate(R.layout.project_listview_row, null);
+
+            //Set the ViewHolder
+            ViewHolder holder = new ViewHolder();
+            holder.tvProjectName = (TextView) v.findViewById(R.id.tv_project_name);
+            holder.tvProjectDescription = (TextView) v.findViewById(R.id.tv_project_description);
+            holder.ivSettings = (ImageView) v.findViewById(R.id.iv_settings);
+            holder.position = position;
+
+
+            v.setTag(holder);
+        }
+        Project project = projects.get(position);
+        final ViewHolder holder = (ViewHolder) v.getTag();
+        holder.tvProjectName.setText(project.getName());
+        holder.tvProjectDescription.setText(project.getDescription());
+        holder.ivSettings.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                PopupWindow popup = getPopupWindow(v, holder.position);
+                popup.showAsDropDown(v);
+
+            }
+        });
+
+        return v;
 	}
 	
-	private PopupWindow getPopupWindow(View view){
+	private PopupWindow getPopupWindow(View view, final int pos){
 		final PopupWindow puw = new PopupWindow(view.getContext());
 		
 		ListView lvOptions = new ListView(view.getContext());
@@ -78,22 +91,26 @@ public class ProjectArrayAdapter  extends ArrayAdapter<Project>{
 			public void onItemClick(AdapterView<?> parent, View view,
 					int puPosition, long id) {
 				switch(puPosition){
-				
 				case DELETE:
-					
-					ProjectHelper pHelper = new ProjectHelper(view.getContext());
-					Project selectedProject = projects.get(puPosition);
-					projects.remove(selectedProjectPosition);
-					if(pHelper.deleteProject(selectedProject)){
-						projects.refresh();
-						
-					}
+					Toast.makeText(getContext(),
+                            "puPostion:" + puPosition + " Row:" + pos,
+                            Toast.LENGTH_SHORT).show();
+//					ProjectHelper pHelper = new ProjectHelper(view.getContext());
+                    FragmentManager fm = ((Activity)ctx).getFragmentManager();
+                    DeleteProjectDialogFragment dialog = new DeleteProjectDialogFragment();
+
+
+					Project selectedProject = projects.get(pos);
+					projects.remove(pos);
+//					if(pHelper.deleteProject(selectedProject)){
+//						projects.refresh();
+//					}
 					puw.dismiss();
 					break;
 				
 				case SETTINGS:
 					Toast.makeText(view.getContext()
-							, "Setting for " + projects.get(selectedProjectPosition).getName()
+							, "Setting for " + projects.get(pos).getName()
 							, Toast.LENGTH_SHORT).show();
 					puw.dismiss();
 					break;
@@ -112,6 +129,13 @@ public class ProjectArrayAdapter  extends ArrayAdapter<Project>{
 		puw.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 		return puw;
 	}
+
+    static class ViewHolder{
+        public TextView tvProjectName;
+        public TextView tvProjectDescription;
+        public ImageView ivSettings;
+        public int position;
+    }
 	
 	
 

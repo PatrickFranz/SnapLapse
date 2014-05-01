@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.ProjectList;
+import ca.qubeit.snaplapse.view.DeleteProjectDialogFragment;
 import ca.qubeit.snaplapse.view.ProjectArrayAdapter;
 
 public class OpenProjectActivity extends Activity {
@@ -38,7 +39,6 @@ public class OpenProjectActivity extends Activity {
 				view.setBackgroundColor(getResources().getColor(R.color.snaplapse_blue));
 				Intent takePicture = new Intent(getBaseContext(), CameraActivity.class);
 				takePicture.putExtra("projectName", projects.get(position).getName());
-				
 				startActivity(takePicture);		
 			}
 		});		
@@ -75,5 +75,6 @@ public class OpenProjectActivity extends Activity {
 		getMenuInflater().inflate(R.menu.open_project, menu);
 		return true;
 	}
+
 
 }

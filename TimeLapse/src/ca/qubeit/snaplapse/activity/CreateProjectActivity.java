@@ -1,11 +1,6 @@
 package ca.qubeit.snaplapse.activity;
 
-import java.util.Calendar;
-
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,7 +14,6 @@ import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
 import ca.qubeit.snaplapse.util.NotificationHelper;
-import ca.qubeit.snaplapse.util.NotificationReceiver;
 
 import com.parse.ParseObject;
 

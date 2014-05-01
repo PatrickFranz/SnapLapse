@@ -15,7 +15,6 @@ public class MainActivity extends Activity {
 
 	private LinearLayout 	btnCreate;
 	private LinearLayout 	btnOpen;
-	private LinearLayout	btnRemove;
 	private LinearLayout 	btnView;
 	
     @Override
@@ -29,7 +28,6 @@ public class MainActivity extends Activity {
         //Get View references
         btnCreate = (LinearLayout)findViewById(R.id.btn_create);
         btnOpen = 	(LinearLayout)findViewById(R.id.btn_open);
-        btnRemove = (LinearLayout)findViewById(R.id.btn_remove);
         btnView = 	(LinearLayout)findViewById(R.id.btn_view);
         
         //Set listeners on buttons
@@ -53,16 +51,6 @@ public class MainActivity extends Activity {
 			}
 		});
         
-        btnRemove.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				restoreButtonState();
-				btnRemove.setBackgroundResource(R.drawable.menu_button_shape_down);
-				Intent removeProject = new Intent(getBaseContext(), RemoveProjectActivity.class);
-				startActivity(removeProject);
-			}
-		});
-        
         btnView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -83,7 +71,6 @@ public class MainActivity extends Activity {
 	private void restoreButtonState() {
 		btnCreate.setBackgroundResource(R.drawable.menu_button_shape);
     	btnOpen	 .setBackgroundResource(R.drawable.menu_button_shape);
-    	btnRemove.setBackgroundResource(R.drawable.menu_button_shape);
     	btnView	 .setBackgroundResource(R.drawable.menu_button_shape);
 	}
 
