@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ca.qubeit.snaplapse"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	
+    <uses-feature android:name="android.hardware.camera" />
+
+    <application
+        android:name="ca.qubeit.snaplapse.util.SnapLapseApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        
+<!-- Activity  -->
+        <activity
+            android:name="ca.qubeit.snaplapse.activity.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="ca.qubeit.snaplapse.activity.TakePicture"
+            android:label="@string/title_activity_take_picture"
+            android:screenOrientation="portrait" 
+            android:parentActivityName="ca.qubeit.snaplapse.activity.OpenProjectActivity">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.qubeit.snaplapse.activity.OpenProjectActivity"/>
+        </activity>
+        <activity
+            android:name="ca.qubeit.snaplapse.activity.CreateProjectActivity"
+            android:label="@string/title_activity_create_project"
+            android:screenOrientation="portrait"
+            android:parentActivityName="ca.qubeit.snaplapse.activity.MainActivity">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.qubeit.snaplapse.activity.MainActivity"/>
+        </activity>
+        <activity
+            android:name="ca.qubeit.snaplapse.activity.OpenProjectActivity"
+            android:label="@string/title_activity_open_project"
+            android:screenOrientation="portrait"
+            android:parentActivityName="ca.qubeit.snaplapse.activity.MainActivity">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.qubeit.snaplapse.activity.MainActivity"/>
+        </activity>
+        <activity
+            android:name="ca.qubeit.snaplapse.activity.CameraActivity"
+            android:label="@string/title_activity_camera"
+            android:screenOrientation="portrait"
+            android:parentActivityName="ca.qubeit.snaplapse.activity.OpenProjectActivity">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.qubeit.snaplapse.activity.OpenProjectActivity"/>
+        </activity>
+        <activity
+            android:name="ca.qubeit.snaplapse.activity.RemoveProjectActivity"
+            android:label="@string/title_activity_remove"
+            android:screenOrientation="portrait"
+            android:parentActivityName="ca.qubeit.snaplapse.activity.MainActivity">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.qubeit.snaplapse.activity.MainActivity"/>
+        </activity>
+        <activity
+            android:name="ca.qubeit.snaplapse.activity.ViewProjectActivity"
+            android:label="@string/title_activity_view_project" 
+            android:screenOrientation="portrait"
+			android:parentActivityName="ca.qubeit.snaplapse.activity.MainActivity">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.qubeit.snaplapse.activity.MainActivity"/>
+        </activity>
+        <activity
+            android:name="ca.qubeit.snaplapse.activity.SlideShowActivity"
+            android:label="@string/title_activity_slide_show" 
+            android:screenOrientation="portrait"
+            android:parentActivityName="ca.qubeit.snaplapse.activity.MainActivity">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.qubeit.snaplapse.activity.MainActivity"/>
+        </activity>
+
+<!-- Broadcast Receivers -->       
+        <receiver  android:name="ca.qubeit.snaplapse.util.NotificationReceiver" />
+        
+    </application>
+
+</manifest>

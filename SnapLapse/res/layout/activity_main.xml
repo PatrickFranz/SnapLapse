@@ -1,0 +1,113 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <!-- Create project button -->
+    <LinearLayout 
+        android:id="@+id/btn_create"
+        style="@style/LinearLayoutButton_Style"
+        >
+        <ImageView 
+            style="@style/ImageViewButton_Style"     
+            android:contentDescription="@string/btn_create_project"
+            android:src="@drawable/ico_add"            
+            />        
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+           >
+	        <TextView
+	            style="@style/ButtonHeading_Style"
+	            android:text="@string/btn_create_project"
+	            />
+	         <TextView
+	           style="@style/ButtonDescription_Style"
+	            android:text="@string/btn_desc_create_project"
+	            />
+        </LinearLayout>
+    </LinearLayout>
+	<!-- End create project button -->
+
+<!-- Work on project button -->
+    <LinearLayout 
+        android:id="@+id/btn_open"
+        style="@style/LinearLayoutButton_Style"
+        >
+        <ImageView 
+            style="@style/ImageViewButton_Style"     
+            android:contentDescription="@string/btn_open_project"
+            android:src="@drawable/ico_edit"            
+            />        
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+           >
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            style="@style/ButtonHeading_Style"
+	            android:text="@string/btn_open_project"
+	            />
+	         <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"	         
+	            android:text="@string/btn_desc_open_project"
+	            />
+        </LinearLayout>
+    </LinearLayout>
+	<!-- End open project button -->
+	<!-- View project button -->
+    <LinearLayout 
+        android:id="@+id/btn_view"
+        style="@style/LinearLayoutButton_Style"
+        >
+        <ImageView
+            style="@style/ImageViewButton_Style"
+            android:contentDescription="@string/btn_view_project"
+            android:src="@drawable/ico_view"            
+            />        
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+           >
+	        <TextView
+	            android:layout_gravity="center_vertical"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            style="@style/ButtonHeading_Style"
+	            android:text="@string/btn_view_project"
+	            />
+	         <TextView
+	            android:layout_gravity="center_vertical"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"	         
+	            android:text="@string/btn_desc_view_project"
+	            />
+        </LinearLayout>
+
+    </LinearLayout>
+	<!-- End view project button -->
+    <!-- Begin Ad space -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        style="@style/LinearLayoutButton_Style"
+
+
+
+        >
+    </LinearLayout>
+
+
+  
+
+
+</LinearLayout>
