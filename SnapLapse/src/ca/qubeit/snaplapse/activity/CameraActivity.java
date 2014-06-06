@@ -4,6 +4,7 @@ package ca.qubeit.snaplapse.activity;
 import java.io.File;
 import java.io.IOException;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,9 +16,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
+import android.widget.ToggleButton;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
@@ -34,7 +36,6 @@ public class CameraActivity extends Activity implements PictureCallback{
 	private String projectName;
 	private ImageView ivBackingImage;
 	private Point screenSize;
-	private Switch togglePreview;
 	
 	
     @Override
@@ -44,15 +45,7 @@ public class CameraActivity extends Activity implements PictureCallback{
         setContentView(R.layout.activity_camera);
         camera = CameraHelper.getCameraInstance();
         screenSize = MediaHelper.getScreenSize(this);
-        togglePreview = (Switch)findViewById(R.id.tog_preview);
-        togglePreview.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				setBackingImage(isChecked);								
-			}
-		});
-        
+        setupActionBar();
         setResult(RESULT_CANCELED);
         Bundle extras = getIntent().getExtras();
         if(extras != null){
@@ -170,8 +163,30 @@ public class CameraActivity extends Activity implements PictureCallback{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.camera, menu);
         return true;
-    }	
+    }
+    
+    private void setupActionBar(){
+    	//Setup ActionBar
+    	ActionBar bar = getActionBar();
+    	bar.setDisplayHomeAsUpEnabled(true);
+    	bar.setDisplayShowCustomEnabled(true);
+    	
+    	//Get the custom view
+    	View customBar = getLayoutInflater().inflate(R.layout.actionbar_camera, null);
+    	ToggleButton togglePreview = (ToggleButton) customBar.findViewById(R.id.switch_tog_preview);    	
+    	togglePreview.setOnCheckedChangeListener(new OnCheckedChangeListener() {			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				setBackingImage(isChecked);				
+			}
+		});
+    	
+    //	ImageButton switchCamera = (ImageButton) customBar.findViewById(R.id.action_switch_camera);
+    	
+    	bar.setCustomView(customBar);
+    	
+    	
+    }
     
 }

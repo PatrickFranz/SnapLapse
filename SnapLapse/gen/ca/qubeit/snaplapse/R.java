@@ -17,6 +17,8 @@ public final class R {
     }
     public static final class color {
         public static final int snaplapse_blue=0x7f040000;
+        public static final int snaplapse_blue_solid=0x7f040001;
+        public static final int snaplapse_orange_solid=0x7f040002;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -31,56 +33,58 @@ public final class R {
     public static final class drawable {
         public static final int ic_action_overflow=0x7f020000;
         public static final int ic_launcher=0x7f020001;
-        public static final int ico_add=0x7f020002;
-        public static final int ico_add_black=0x7f020003;
-        public static final int ico_delete=0x7f020004;
-        public static final int ico_edit=0x7f020005;
-        public static final int ico_view=0x7f020006;
-        public static final int menu_button_shape=0x7f020007;
-        public static final int menu_button_shape_down=0x7f020008;
-        public static final int shape_take_picture_btn=0x7f020009;
-        public static final int submit_button_shape=0x7f02000a;
+        public static final int ic_switch_camera=0x7f020002;
+        public static final int ico_add=0x7f020003;
+        public static final int ico_add_black=0x7f020004;
+        public static final int ico_delete=0x7f020005;
+        public static final int ico_edit=0x7f020006;
+        public static final int ico_view=0x7f020007;
+        public static final int menu_button_shape=0x7f020008;
+        public static final int menu_button_shape_down=0x7f020009;
+        public static final int shape_take_picture_btn=0x7f02000a;
+        public static final int submit_button_shape=0x7f02000b;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a001b;
-        public static final int btn_create=0x7f0a000b;
-        public static final int btn_create_project=0x7f0a000f;
-        public static final int btn_create_project_submit=0x7f0a000a;
-        public static final int btn_open=0x7f0a000c;
-        public static final int btn_remove_project=0x7f0a0011;
-        public static final int btn_take_picture=0x7f0a0004;
-        public static final int btn_view=0x7f0a000d;
-        public static final int btn_view_slideshow=0x7f0a0015;
-        public static final int button_bar=0x7f0a0003;
-        public static final int camera_preview=0x7f0a0001;
-        public static final int et_interval=0x7f0a0008;
+        public static final int action_settings=0x7f0a001a;
+        public static final int action_switch_camera=0x7f0a0001;
+        public static final int btn_create=0x7f0a000a;
+        public static final int btn_create_project=0x7f0a000e;
+        public static final int btn_create_project_submit=0x7f0a0009;
+        public static final int btn_open=0x7f0a000b;
+        public static final int btn_remove_project=0x7f0a0010;
+        public static final int btn_take_picture=0x7f0a0005;
+        public static final int btn_view=0x7f0a000c;
+        public static final int btn_view_slideshow=0x7f0a0014;
+        public static final int camera_preview=0x7f0a0003;
         public static final int et_project_description=0x7f0a0007;
         public static final int et_project_name=0x7f0a0006;
-        public static final int isDeleteOk=0x7f0a0016;
-        public static final int iv_camera_preview_overlay=0x7f0a0002;
-        public static final int iv_preview_image=0x7f0a0017;
-        public static final int iv_settings=0x7f0a001a;
-        public static final int iv_slide=0x7f0a0012;
-        public static final int lv_open_projects=0x7f0a000e;
-        public static final int lv_remove_projects=0x7f0a0010;
-        public static final int lv_view_projects=0x7f0a0014;
-        public static final int rel_layout=0x7f0a0000;
-        public static final int sp_interval=0x7f0a0009;
-        public static final int tog_preview=0x7f0a0005;
-        public static final int tv_loading=0x7f0a0013;
-        public static final int tv_project_description=0x7f0a0019;
-        public static final int tv_project_name=0x7f0a0018;
+        public static final int isDeleteOk=0x7f0a0015;
+        public static final int iv_camera_preview_overlay=0x7f0a0004;
+        public static final int iv_preview_image=0x7f0a0016;
+        public static final int iv_settings=0x7f0a0019;
+        public static final int iv_slide=0x7f0a0011;
+        public static final int lv_open_projects=0x7f0a000d;
+        public static final int lv_remove_projects=0x7f0a000f;
+        public static final int lv_view_projects=0x7f0a0013;
+        public static final int rel_layout=0x7f0a0002;
+        public static final int sp_interval=0x7f0a0008;
+        public static final int switch_tog_preview=0x7f0a0000;
+        public static final int tv_loading=0x7f0a0012;
+        public static final int tv_project_description=0x7f0a0018;
+        public static final int tv_project_name=0x7f0a0017;
     }
     public static final class layout {
-        public static final int activity_camera=0x7f030000;
-        public static final int activity_create_project=0x7f030001;
-        public static final int activity_main=0x7f030002;
-        public static final int activity_open_project=0x7f030003;
-        public static final int activity_remove_project=0x7f030004;
-        public static final int activity_slide_show=0x7f030005;
-        public static final int activity_view_project=0x7f030006;
-        public static final int dlg_delete_project=0x7f030007;
-        public static final int project_listview_row=0x7f030008;
+        public static final int actionbar_camera=0x7f030000;
+        public static final int activity_camera=0x7f030001;
+        public static final int activity_create_project=0x7f030002;
+        public static final int activity_main=0x7f030003;
+        public static final int activity_open_project=0x7f030004;
+        public static final int activity_remove_project=0x7f030005;
+        public static final int activity_slide_show=0x7f030006;
+        public static final int activity_view_project=0x7f030007;
+        public static final int dlg_delete_project=0x7f030008;
+        public static final int dlg_edit_project=0x7f030009;
+        public static final int project_listview_row=0x7f03000a;
     }
     public static final class menu {
         public static final int camera=0x7f090000;
@@ -93,61 +97,68 @@ public final class R {
         public static final int view_project=0x7f090007;
     }
     public static final class string {
+        /**  Camera View strings 
+         */
+        public static final int action_preview_overlay=0x7f06002a;
         public static final int action_settings=0x7f060001;
+        public static final int action_switch_camera=0x7f06002e;
+        public static final int alert_me=0x7f06001d;
         /**  Project wide strings 
          */
         public static final int app_name=0x7f060000;
-        public static final int btn_create_new_project=0x7f06001d;
-        public static final int btn_create_project=0x7f06000d;
-        public static final int btn_create_submit=0x7f060024;
-        public static final int btn_delete_project=0x7f06000f;
-        public static final int btn_desc_create_project=0x7f060011;
-        public static final int btn_desc_delete_project=0x7f060013;
-        public static final int btn_desc_open_project=0x7f060012;
-        public static final int btn_desc_view_project=0x7f060014;
-        public static final int btn_open_project=0x7f06000e;
+        public static final int btn_create_new_project=0x7f060022;
+        public static final int btn_create_project=0x7f06000f;
+        public static final int btn_create_submit=0x7f060029;
+        public static final int btn_delete_project=0x7f060011;
+        public static final int btn_desc_create_project=0x7f060013;
+        public static final int btn_desc_delete_project=0x7f060015;
+        public static final int btn_desc_open_project=0x7f060014;
+        public static final int btn_desc_view_project=0x7f060016;
+        public static final int btn_open_project=0x7f060010;
         /**  Button Common Strings 
          */
-        public static final int btn_remove_project=0x7f060023;
-        public static final int btn_view_project=0x7f060010;
-        public static final int btn_view_slideshow=0x7f060026;
-        /**  Camera View strings 
-         */
-        public static final int cd_preview_overlay=0x7f060025;
-        public static final int cd_project_preview=0x7f06001c;
-        public static final int dlg_confirmation=0x7f060020;
-        public static final int dlg_delete_images=0x7f060021;
-        public static final int dlg_remove_title=0x7f06001e;
-        public static final int dlg_warning_msg=0x7f06001f;
-        public static final int hint_project_description=0x7f06001a;
-        public static final int hint_project_name=0x7f060019;
+        public static final int btn_remove_project=0x7f060028;
+        public static final int btn_view_project=0x7f060012;
+        public static final int btn_view_slideshow=0x7f06002b;
+        public static final int cd_camera_button=0x7f06002d;
+        public static final int cd_project_preview=0x7f060021;
+        public static final int chk_no_reminder=0x7f060019;
+        public static final int dlg_cancel=0x7f060006;
+        public static final int dlg_confirm=0x7f060005;
+        public static final int dlg_confirmation=0x7f060025;
+        public static final int dlg_delete_images=0x7f060026;
+        public static final int dlg_remove_title=0x7f060023;
+        public static final int dlg_warning_msg=0x7f060024;
+        public static final int hint_project_description=0x7f06001c;
+        public static final int hint_project_name=0x7f06001b;
+        public static final int information=0x7f06001f;
         public static final int numeric_hint=0x7f060002;
-        public static final int title_activity_camera=0x7f060008;
-        public static final int title_activity_create_project=0x7f060006;
-        public static final int title_activity_open_project=0x7f060007;
-        public static final int title_activity_remove=0x7f060009;
-        public static final int title_activity_slide_show=0x7f06000b;
+        public static final int reminder=0x7f06001e;
+        public static final int title_activity_camera=0x7f06000a;
+        public static final int title_activity_create_project=0x7f060008;
+        public static final int title_activity_open_project=0x7f060009;
+        public static final int title_activity_remove=0x7f06000b;
+        public static final int title_activity_slide_show=0x7f06000d;
         /**  Activity strings 
          */
-        public static final int title_activity_take_picture=0x7f060005;
-        public static final int title_activity_view_project=0x7f06000a;
+        public static final int title_activity_take_picture=0x7f060007;
+        public static final int title_activity_view_project=0x7f06000c;
         /**  Create Project strings 
          */
-        public static final int txt_create_project=0x7f060015;
+        public static final int txt_create_project=0x7f060017;
         /**  SlideShow Activity strings 
          */
-        public static final int txt_loading=0x7f060022;
+        public static final int txt_loading=0x7f060027;
         /**  Main menu strings 
          */
-        public static final int txt_main_menu=0x7f06000c;
+        public static final int txt_main_menu=0x7f06000e;
         public static final int txt_no=0x7f060004;
-        public static final int txt_project_desc=0x7f060018;
-        public static final int txt_project_name=0x7f060016;
+        public static final int txt_project_desc=0x7f06001a;
+        public static final int txt_project_name=0x7f060018;
         /**  Open/Remove Project strings 
          */
-        public static final int txt_select_project=0x7f06001b;
-        public static final int txt_time_interval=0x7f060017;
-        public static final int txt_tog_preview=0x7f060027;
+        public static final int txt_select_project=0x7f060020;
+        public static final int txt_tog_preview=0x7f06002c;
         public static final int txt_yes=0x7f060003;
     }
     public static final class style {
@@ -177,14 +188,17 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f080001;
-        public static final int ButtonDescription_Style=0x7f080005;
-        public static final int ButtonHeading_Style=0x7f080004;
-        public static final int FormText_Style=0x7f080006;
+        public static final int ButtonDescription_Style=0x7f080006;
+        public static final int ButtonHeading_Style=0x7f080005;
+        public static final int FormHeading_Style=0x7f080008;
+        public static final int FormSubHeading_Style=0x7f080009;
+        public static final int FormText_Style=0x7f080007;
         public static final int ImageViewButton_Style=0x7f080003;
+        public static final int ImageViewButton_Style_Land=0x7f080004;
         /**  Menu button styles 
          */
         public static final int LinearLayoutButton_Style=0x7f080002;
-        public static final int ListDescription_Style=0x7f080008;
-        public static final int ListHeading_Style=0x7f080007;
+        public static final int ListDescription_Style=0x7f08000b;
+        public static final int ListHeading_Style=0x7f08000a;
     }
 }

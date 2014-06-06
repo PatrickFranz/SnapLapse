@@ -13,16 +13,14 @@ import android.widget.Toast;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
+import ca.qubeit.snaplapse.data.ProjectHelper;
 import ca.qubeit.snaplapse.util.NotificationHelper;
-
-import com.parse.ParseObject;
 
 public class CreateProjectActivity extends Activity {
 
 	private final String TAG = "CreateProjectActivity";
 	private EditText 			projectName;
 	private EditText			projectDescription;
-	private EditText 			intervalNumeric;
 	private Spinner  			intervalUnit;
 	private Button	 			submit;
 	private ProjectDataSource 	dataSource;
@@ -39,7 +37,6 @@ public class CreateProjectActivity extends Activity {
 		//Get our references to UI views
 		projectName 		= (EditText)findViewById(R.id.et_project_name);
 		projectDescription 	= (EditText)findViewById(R.id.et_project_description);
-		intervalNumeric 	= (EditText)findViewById(R.id.et_interval);
 		intervalUnit 		= (Spinner)findViewById(R.id.sp_interval);
 		submit 				= (Button)findViewById(R.id.btn_create_project_submit);
 		
@@ -48,7 +45,7 @@ public class CreateProjectActivity extends Activity {
 			public void onClick(View v) {
 				String name = "SnapLapse Project";
 				String desc = "";
-				int length 	= 1;
+				long intervalInMillis = 0;
 				
 				//Validate input
 				if(projectName.getText().length() > 1){
@@ -58,14 +55,23 @@ public class CreateProjectActivity extends Activity {
 					desc = projectDescription.getText().toString();
 				}
 				
-				if(intervalNumeric.getText().length() >= 1){
-					length = Integer.parseInt(intervalNumeric.getText().toString());
-				}				
-				long intervalInMillis = getLongInterval(length, intervalUnit.getSelectedItem().toString());
-				
-				//Create project and add it to the database.
-				Project project = new Project(name, desc, intervalInMillis, notifyId);
+				//Create project
+				Project project = new Project();
 				if(project != null){
+					intervalInMillis = ProjectHelper.getLongInterval(intervalUnit.getSelectedItem().toString());
+						
+					project.setName(name);
+					project.setDescription(desc);
+					project.setNotificationInterval(intervalInMillis);
+					project.setNotifyId(notifyId);
+					
+					//Schedule a notification
+					if(intervalInMillis == Project.NEVER_ALERT){
+						//Do nothing
+					} else {						
+						NotificationHelper.createScheduledNotification(getApplicationContext(), project);						
+					}
+
 					dataSource.open();
 					Log.i(TAG, "Create new project titled: " + project.getName());
 					if(dataSource.add(project) != -1){
@@ -78,47 +84,18 @@ public class CreateProjectActivity extends Activity {
 								, Toast.LENGTH_SHORT).show();
 					}
 					dataSource.close();
-					
-					//Schedule a notification
-					NotificationHelper.createScheduledNotification(getApplicationContext(), notifyId, intervalInMillis, name);
-					
+						
 					//Parse tracks total number of projects created. Lets add 1 to that now.
-					sendToParse(name, desc, intervalInMillis, intervalUnit.getSelectedItem().toString());
+					ProjectHelper.sendToParse(name, desc, intervalInMillis, intervalUnit.getSelectedItem().toString());
 				}
 				finish();
 			}			
 		});		
 	}
 	
-	private void sendToParse(String name, String desc, long intervalInMillis, String intervalUnit) {
-		ParseObject newProject = new ParseObject("Project");
-		newProject.put("projectName", name);
-		newProject.put("description", desc);
-		newProject.put("IntervalInMillis"	, intervalInMillis);
-		newProject.put("IntervalUnit", intervalUnit);
-		newProject.saveInBackground();
-	}
 	
-	private long getLongInterval(int length, String unitType){
-		if(unitType.equals("minutes")){
-			return length * 60 * 1000;
-		}
-		else if(unitType.equals("hours")){
-			return length * 60 * 60 * 1000;
-		} 
-		else if(unitType.equals("days")){
-			return length * 24 * 60 * 60 * 1000;
-		} 
-		else if(unitType.equals("weeks")){
-			return length * 7 * 24 * 60 * 60 * 1000;
-		}		
-		else if(unitType.equals("months")){
-			return length * 30 * 24 * 60 * 60 * 1000;
-		} 
-		else {
-			return -1;
-		}
-	}
+	
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

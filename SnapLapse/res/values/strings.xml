@@ -7,6 +7,8 @@
     <string name="numeric_hint">1</string>
     <string name="txt_yes">Yes</string>
     <string name="txt_no">No</string>
+    <string name="dlg_confirm">Confirm</string>
+    <string name="dlg_cancel">Cancel</string>
 
     <!-- Activity strings -->
     <string name="title_activity_take_picture">Take a Picture</string>
@@ -31,10 +33,13 @@
     <!-- Create Project strings -->
     <string name="txt_create_project">Create a Project</string>
     <string name="txt_project_name">Project Name</string>
-    <string name="txt_time_interval">Notify Interval</string>
+    <string name="chk_no_reminder">Don\'t remind me</string>
     <string name="txt_project_desc">Description</string>
     <string name="hint_project_name">Name your project</string>
     <string name="hint_project_description">A brief description</string>
+    <string name="alert_me">Alert me</string>
+    <string name="reminder">Reminder</string>
+    <string name="information">Information</string>
 
     <!-- Open/Remove Project strings -->
     <string name="txt_select_project">Select a Project</string>
@@ -53,17 +58,19 @@
     <string name="btn_create_submit">Create this Project</string>
 
     <!-- Camera View strings -->
-    <string name="cd_preview_overlay">Image overlay</string>
+    <string name="action_preview_overlay">Image overlay</string>
     <string name="btn_view_slideshow">View</string>
     <string name="txt_tog_preview">Past Preview</string>
+    <string name="cd_camera_button">Take Picture</string>
+    <string name="action_switch_camera">Switch Camera</string>
 
     <!-- String array resources -->
     <string-array name="time_interval_reminder">
-        <item>minutes</item>
-        <item>hours</item>
-        <item>days</item>
-        <item>months</item>
-        <item>weeks</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Never</item>
+        <item>Minute</item>
     </string-array>
 
    

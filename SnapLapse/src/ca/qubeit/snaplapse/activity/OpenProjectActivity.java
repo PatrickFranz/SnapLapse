@@ -16,12 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 import ca.qubeit.snaplapse.R;
 import ca.qubeit.snaplapse.data.Project;
+import ca.qubeit.snaplapse.data.ProjectDataSource;
 import ca.qubeit.snaplapse.data.ProjectList;
 import ca.qubeit.snaplapse.view.DeleteProjectDialogFragment;
-import ca.qubeit.snaplapse.view.DeleteProjectDialogFragment.OnButtonClickListener;
+import ca.qubeit.snaplapse.view.EditProjectDialogFragment;
 import ca.qubeit.snaplapse.view.ProjectArrayAdapter;
 
 public class OpenProjectActivity extends FragmentActivity implements OnButtonClickListener{
@@ -33,6 +33,7 @@ public class OpenProjectActivity extends FragmentActivity implements OnButtonCli
 	private ProjectList projects;
 	private final int DELETE 	= 0;
 	private final int SETTINGS  = 1;
+	private View lastClicked;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +47,12 @@ public class OpenProjectActivity extends FragmentActivity implements OnButtonCli
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position,
 					long id) {
-				Log.d(TAG, "ProjectList onItemClick...");
+				Log.d(TAG, "ProjectList onItemClick...");			
 				view.setBackgroundColor(getResources().getColor(R.color.snaplapse_blue));
 				Intent takePicture = new Intent(getBaseContext(), CameraActivity.class);
 				takePicture.putExtra("projectName", projects.get(position).getName());
-				startActivity(takePicture);		
+				lastClicked = view;
+				startActivity(takePicture);
 			}
 		});		
 		
@@ -82,6 +84,9 @@ public class OpenProjectActivity extends FragmentActivity implements OnButtonCli
 		projectAdapter.clear();
 		projects.refresh();
 		projectAdapter.notifyDataSetChanged();
+		if(lastClicked != null){
+			lastClicked.setBackgroundColor(Color.WHITE);
+		}	
 	}
 	
 	@Override
@@ -92,15 +97,21 @@ public class OpenProjectActivity extends FragmentActivity implements OnButtonCli
 	}
 
 	@Override
-	public void settingsButtonClick(View view, int position) {
+	public void projectOptionsButtonClick(View view, int position) {
 		PopupWindow popup = getPopupWindow(view, position);
         popup.showAsDropDown(view);
 		
 	}
 	
 	@Override
-	public void dialogButtonClick(int result) {
-
+	public void dialogButtonClick(int result, Project project) {
+		if(result == OnButtonClickListener.CLICK_CONFIRM){
+			//Confirm was pressed and the project changed
+			ProjectDataSource source = new ProjectDataSource(this);
+			source.open();
+			source.update(project);
+			source.close();
+		}
 		refreshAdapter();
 		
 	}
@@ -121,23 +132,21 @@ public class OpenProjectActivity extends FragmentActivity implements OnButtonCli
 					int puPosition, long id) {
 				
 				Project selectedProject = projects.get(pos);
+				
 				switch(puPosition){
 				case DELETE:
-					Toast.makeText(getApplicationContext(),
-                            "Row:" + pos,
-                            Toast.LENGTH_SHORT).show();
-					DeleteProjectDialogFragment dialog = new DeleteProjectDialogFragment();
-					dialog.setProject(selectedProject);
-					FragmentManager fm = getSupportFragmentManager(); 
-					dialog.show(fm, "");
-
+					DeleteProjectDialogFragment deleteDialog = new DeleteProjectDialogFragment();
+					deleteDialog.setProject(selectedProject);
+					FragmentManager deleteFM = getSupportFragmentManager(); 
+					deleteDialog.show(deleteFM, null);
 					puw.dismiss();
 					break;
 				
-				case SETTINGS:
-					Toast.makeText(getApplicationContext()
-							, "Setting for " + projects.get(pos).getName()
-							, Toast.LENGTH_SHORT).show();
+				case SETTINGS:					
+					EditProjectDialogFragment editDialog = new EditProjectDialogFragment();
+					FragmentManager editFM = getSupportFragmentManager();
+					editDialog.setProject(selectedProject);
+					editDialog.show(editFM, null);					
 					puw.dismiss();
 					break;
 				

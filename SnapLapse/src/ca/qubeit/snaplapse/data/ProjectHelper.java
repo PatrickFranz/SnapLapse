@@ -1,5 +1,7 @@
 package ca.qubeit.snaplapse.data;
 
+import com.parse.ParseObject;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -68,5 +70,35 @@ public class ProjectHelper {
 		source.open();
 		source.delete(project.get_id());
 		source.close();						
+	}
+	
+	public static long getLongInterval(String unitType){
+		if(unitType.equals("Minute")){  //Minute is for testing notifications
+			return Project.MINUTE_IN_MILLIS;
+		}	
+		else if(unitType.equals("Daily")){
+			return Project.DAY_IN_MILLIS;
+		} 
+		else if(unitType.equals("Weekly")){
+			return Project.WEEK_IN_MILLIS;
+		}		
+		else if(unitType.equals("Monthly")){
+			return Project.MONTH_IN_MILLIS;
+		}
+		else if(unitType.equals("Never")){
+			return Project.NEVER_ALERT;
+		} 
+		else {
+			return -1;
+		}
+	}
+	
+	public static void sendToParse(String name, String desc, long intervalInMillis, String intervalUnit) {
+		ParseObject newProject = new ParseObject("Project");
+		newProject.put("projectName", name);
+		newProject.put("description", desc);
+		newProject.put("IntervalInMillis"	, intervalInMillis);
+		newProject.put("IntervalUnit", intervalUnit);
+		newProject.saveInBackground();
 	}
 }

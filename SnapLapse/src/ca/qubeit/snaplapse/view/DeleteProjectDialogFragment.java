@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import ca.qubeit.snaplapse.R;
+import ca.qubeit.snaplapse.activity.OnButtonClickListener;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectDataSource;
 import ca.qubeit.snaplapse.util.MediaHelper;
@@ -19,18 +20,13 @@ public class DeleteProjectDialogFragment extends DialogFragment {
 	private static final String TAG = 	"DeleteProjectDialogFragment";
    	private Project project;
 	private Context context;
- 
-    public static interface OnButtonClickListener {
-        public void settingsButtonClick(View view, int position);
-        public void dialogButtonClick(int result);
-    }
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		//Create the view from resource
 		this.context = getActivity();
 		View dlgLayout = View.inflate(getActivity(), R.layout.dlg_delete_project, null);
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
 		final CheckBox chkIsDeleteOk = (CheckBox)dlgLayout.findViewById(R.id.isDeleteOk);
 		dialogBuilder.setView(dlgLayout)
 			.setTitle(R.string.dlg_remove_title)
@@ -39,14 +35,13 @@ public class DeleteProjectDialogFragment extends DialogFragment {
 			.setPositiveButton(R.string.txt_yes, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					final int notificationId = project.getNotifyId();
-					NotificationHelper.cancelNotification(context, notificationId);
+					NotificationHelper.cancelNotification(context, project.getNotifyId());
 					deleteProjectFromDatabase();
 					if(chkIsDeleteOk.isChecked()){
 						MediaHelper.removeProjectFiles(project.getName());
 					}
 					OnButtonClickListener listener = ((OnButtonClickListener)context);
-					listener.dialogButtonClick(0);
+					listener.dialogButtonClick(OnButtonClickListener.CLICK_DELETE, null);
 				}				
 		      })
 		      .setNegativeButton(R.string.txt_no, new DialogInterface.OnClickListener(){

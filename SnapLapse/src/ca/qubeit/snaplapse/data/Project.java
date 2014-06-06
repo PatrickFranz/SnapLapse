@@ -12,9 +12,15 @@ import android.os.Environment;
 
 /**
  * @author Patrick Franz
+ * @Date Feb 1, 2014
  *
  */
 public class Project {
+	public static final long MINUTE_IN_MILLIS = 1000 * 60; //For testing 
+	public static final long NEVER_ALERT = 0;
+	public static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+	public static final long WEEK_IN_MILLIS = 1000 * 60 * 60 * 24 * 7;
+	public static final long MONTH_IN_MILLIS = 1000 * 60 * 60 * 24 * 7 * 30;
 	
 	private int _id;
 	private String name;
@@ -25,16 +31,8 @@ public class Project {
 	private String imagePath;
 	
 	public Project() {
-		
-	}
-
-	public Project(String name, String description, long notificationInterval, int notifyId) {
-		this.name = name;
-		this.description = description;
-		this.notificationInterval = notificationInterval;
-		setNotifyId(notifyId);
 		setCreatedDate(System.currentTimeMillis());
-		setImagePath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/SnapLapse/" + name);
+		setImagePath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/SnapLapse/" + name);		
 	}
 
 	public int get_id() {
@@ -96,6 +94,23 @@ public class Project {
 
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
+	}
+	
+	public int getReminderFrequencyInHuman(){		
+		if(notificationInterval == DAY_IN_MILLIS){
+			return 0;
+		}
+		else if(notificationInterval == WEEK_IN_MILLIS){
+			return 1;
+		}
+		else if(notificationInterval == MONTH_IN_MILLIS){
+			return 2;
+		}
+		else if(notificationInterval == NEVER_ALERT){
+			return 3;
+		} else {
+			return -1;
+		}
 	}
 
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="snaplapse_blue">#8833b5e5</color>
+    <color name="snaplapse_blue_solid">#33b5e5</color>
+    <color name="snaplapse_orange_solid">#e5a833</color>
     
 </resources>

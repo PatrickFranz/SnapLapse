@@ -9,18 +9,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ca.qubeit.snaplapse.R;
+import ca.qubeit.snaplapse.activity.OnButtonClickListener;
 import ca.qubeit.snaplapse.data.Project;
 import ca.qubeit.snaplapse.data.ProjectList;
-import ca.qubeit.snaplapse.view.DeleteProjectDialogFragment.OnButtonClickListener;
 
 public class ProjectArrayAdapter extends ArrayAdapter<Project>{
 
-	private Context ctx;
+	private Context context;
 	private ProjectList projects;	
 
 	public ProjectArrayAdapter(Context context, ProjectList projects) {
 		super(context, android.R.id.content, projects);
-		this.ctx = context;
+		this.context = context;
 		this.projects = projects;
 	}
 
@@ -31,7 +31,7 @@ public class ProjectArrayAdapter extends ArrayAdapter<Project>{
         //Reuse views
         if(view == null) {
 
-            LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.project_listview_row, null);
 
             //Set the ViewHolder
@@ -52,8 +52,8 @@ public class ProjectArrayAdapter extends ArrayAdapter<Project>{
         	
             @Override
             public void onClick(View v) {
-            	OnButtonClickListener listener = ((OnButtonClickListener)ctx);
-            	listener.settingsButtonClick(v, holder.position);
+            	OnButtonClickListener listener = ((OnButtonClickListener)context);
+            	listener.projectOptionsButtonClick(v, holder.position);
             }
         });
         return view;

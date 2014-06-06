@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ToggleButton
+        style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/switch_tog_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/action_switch_camera"
+        android:textColor="#e5a833"
+        android:textOff="Preview Off"
+        android:textOn="Preview On" />
+    
+    <ImageButton
+		style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/action_switch_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/action_switch_camera"
+        android:src="@drawable/ic_switch_camera" />
+
+</RelativeLayout>

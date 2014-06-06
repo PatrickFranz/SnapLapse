@@ -39,9 +39,31 @@ public class ProjectDataSource {
 		content.put("notify_id", project.getNotifyId());
 		content.put("image_path", project.getImagePath());
 		
-		return db.insert("projects", null, content);				
+		return db.insert(DataAccessHelper.DB_TABLE, null, content);				
 	}
 	
+	/**
+	 * Updates a project in the database based on the supplied project's _id
+	 * @param updProject The project to update
+	 * @return The number of rows affected.
+	 */
+	public int update(Project updProject){
+		
+		String whereClause = "_id = " + updProject.get_id();
+		
+		ContentValues values = new ContentValues();
+		values.put("name", updProject.getName());
+		values.put("description", updProject.getDescription());
+		values.put("notify_interval", updProject.getNotificationInterval());		
+		
+		return db.update(DataAccessHelper.DB_TABLE, values, whereClause, null);
+	}
+	
+	/**
+	 * Deletes selected row from database.
+	 * @param rowId
+	 * @return
+	 */
 	public boolean delete(long rowId){
 		String where = DataAccessHelper.DB_COLUMN_ID + " = " + rowId;
 		return db.delete(DataAccessHelper.DB_TABLE, where , null) > 0;
